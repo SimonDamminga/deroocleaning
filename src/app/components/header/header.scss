@@ -1,5 +1,5 @@
 header {
-    background-image: url('/main.jpg');
+    background-image: url('../../../../public/main.jpg');
     background-size: cover;
     position: relative;
     border-radius: 0 0 16px 16px;
@@ -8,7 +8,7 @@ header {
 
 .header--small {
     height: 300px;
-    background-image: url('/contact.jpg');
+    background-image: url('../../../../public/contact.jpg');
 }
 
 .header__logo {
