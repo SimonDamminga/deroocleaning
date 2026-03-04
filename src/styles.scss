@@ -1,0 +1,77 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700&display=swap');
+
+/* You can add global styles to this file, and also import other style files */
+* {
+    margin: 0;
+}
+
+:root {
+  --color-primary: #3490ae;
+  --color-text: #242424;
+  --color-text-strong: #0c2027;
+
+  --color-overlay-white-20: rgba(255, 255, 255, 0.2);
+  --color-overlay-white-30: rgba(255, 255, 255, 0.3);
+  --color-overlay-gray-20: rgba(193, 193, 193, 0.2);
+  --color-overlay-gray-40: rgba(193, 193, 193, 0.4);
+
+  --color-accent-60: rgba(58, 160, 194, 0.6);
+  --color-accent-80: rgba(58, 160, 194, 0.8);
+  --color-accent-30: rgba(58, 160, 194, 0.3);
+
+  --color-shadow-10: rgba(0, 0, 0, 0.1);
+  --color-shadow-20: rgba(0, 0, 0, 0.2);
+  --color-shadow-50: rgba(0, 0, 0, 0.5);
+}
+
+body {
+  font-family: "Nunito Sans", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+}
+
+.bebas-neue-regular {
+  font-family: "Bebas Neue", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.header-text {
+    color: var(--color-primary);
+    font-size: 70px;
+}
+
+.page-section {
+  margin: 56px auto;
+}
+
+.page-title {
+  color: var(--color-primary);
+  font-size: clamp(44px, 7vw, 72px);
+  margin-bottom: 20px;
+}
+
+.section-title {
+  color: var(--color-primary);
+  font-size: clamp(28px, 4vw, 40px);
+  margin-bottom: 10px;
+}
+
+.page-text {
+  color: var(--color-text);
+  font-size: 20px;
+  line-height: 1.6;
+  margin-bottom: 14px;
+}
+
+.page-text:last-child {
+  margin-bottom: 0;
+}
+
+@media only screen and (max-width: 991px) {
+  .page-section {
+    margin: 40px auto;
+  }
+
+  .page-text {
+    font-size: 18px;
+  }
+}
