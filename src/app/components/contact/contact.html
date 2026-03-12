@@ -1,5 +1,82 @@
 <section class="container contact page-section">
     <h1 class="page-title bebas-neue-regular">Neem contact met ons op</h1>
-    <p>contact works!</p>
-</section>
+    <div class="content">
+        <div class="form">
+            <form [formGroup]="contactForm">
+                <p class="normal-text">Persoonlijke gegevens:</p>
+                <div class="form-row">
+                    <mat-form-field>
+                        <mat-label>Voornaam</mat-label>
+                        <input matInput placeholder="Bijv. Jan" formControlName="firstName">
+                    </mat-form-field>
 
+                    <mat-form-field>
+                        <mat-label>Achternaam</mat-label>
+                        <input matInput placeholder="Bijv. Jansen" formControlName="lastName">
+                    </mat-form-field>
+                </div>
+
+                <div class="form-row">
+                    <mat-form-field>
+                        <mat-label>E-mail</mat-label>
+                        <input type="email" matInput placeholder="naam@voorbeeld.nl" formControlName="email">
+                    </mat-form-field>
+
+                    <mat-form-field>
+                        <mat-label>Telefoonnummer</mat-label>
+                        <input type="tel" matInput placeholder="06 12345678" formControlName="phone">
+                    </mat-form-field>
+                </div>
+
+                <p class="normal-text">Adres gegevens:</p>
+                <div class="form-row">
+                    <mat-form-field style="flex: 2;">
+                        <mat-label>Postcode</mat-label>
+                        <input matInput placeholder="1234 AB" formControlName="postCode">
+                    </mat-form-field>
+
+                    <mat-form-field style="flex: 1;">
+                        <mat-label>Huisnummer</mat-label>
+                        <input matInput placeholder="1" formControlName="houseNumber">
+                    </mat-form-field>
+                    
+                    <mat-form-field style="flex: 0.5;">
+                        <mat-label>Toev.</mat-label>
+                        <input matInput placeholder="A">
+                    </mat-form-field>
+                </div>
+                @if (!addressLoading() && contactForm.get('street')?.value) {
+                    <div class="address-feedback">
+                        <p><strong>Gevonden adres:</strong> {{ contactForm.get('street')?.value }}&nbsp;{{ contactForm.get('houseNumber')?.value }},&nbsp;{{ contactForm.get('postCode')?.value }}&nbsp;{{ contactForm.get('city')?.value }}</p>
+                    </div>
+                }
+                @if (addressLoading()) {
+                    <mat-spinner [diameter]="20"></mat-spinner>
+                }
+
+                <p class="normal-text">Aanvullende informatie:</p>
+                <mat-form-field class="full-width">
+                    <mat-label>Gekozen dienst</mat-label>
+                    <mat-select>
+                        <mat-option value="car">Auto Interieurreiniging</mat-option>
+                        <mat-option value="chair">Stoelen en Fauteuils</mat-option>
+                        <mat-option value="couch">Bankreiniging</mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field class="full-width">
+                    <mat-label>Uw bericht</mat-label>
+                    <textarea matInput rows="5" placeholder="Waar kunnen we u mee helpen?"></textarea>
+                </mat-form-field>
+
+                <button mat-raised-button color="primary" type="submit" class="submit-btn">
+                    Verstuur Bericht
+                </button>                
+            </form>
+        </div>
+
+        <div class="map-container">
+            <div id="map"></div>
+        </div>
+    </div>
+</section>

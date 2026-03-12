@@ -1,0 +1,71 @@
+/* Container Layout */
+.content {
+  display: flex;
+  gap: 40px;
+  flex-wrap: wrap; /* Stacks map under form on small screens */
+  margin-top: 2rem;
+}
+
+.form {
+  flex: 1; /* Takes up available space */
+  min-width: 300px;
+  display: flex;
+  flex-direction: column;
+}
+
+.map-container {
+  width: 50%;
+  max-height: 550px; // Zorg voor voldoende hoogte
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #ddd;
+}
+
+#map {
+  height: 100%;
+  width: 100%;
+  display: block; /* Zorgt dat het als een block element reageert */
+  min-height: 400px; /* Belangrijk voor flex-containers */
+}
+
+/* Form Row Logic */
+.form-row {
+  display: flex;
+  gap: 16px;
+  width: 100%;
+}
+
+.form-row mat-form-field {
+  flex: 1; /* Makes fields in a row equal width */
+}
+
+/* Full Width Utility */
+.full-width {
+  width: 100%;
+}
+
+/* Button Styling */
+.submit-btn {
+  align-self: flex-start;
+  padding: 0.5rem 2rem;
+  font-size: 1.1rem;
+  margin-top: 1rem;
+}
+
+.normal-text {
+    font-size: 20px;
+    line-height: 1.6;
+    margin-bottom: 16px;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 600px) {
+  .form-row {
+    flex-direction: column;
+    gap: 0;
+  }
+  
+  .content {
+    flex-direction: column;
+  }
+}

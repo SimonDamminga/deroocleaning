@@ -1,6 +1,8 @@
 header {
-    background-image: url('../../../../public/main.jpg');
+    background-image: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.5) 100%), url('../../../../public/main.jpg');
+    
     background-size: cover;
+    background-position: 0px;
     position: relative;
     border-radius: 0 0 16px 16px;
     height: 500px;
@@ -12,6 +14,8 @@ header {
 }
 
 .header__logo {
+    width: 180px;
+    height: 180px;
     border-radius: 50%;
     box-shadow: 0px 0px 10px var(--color-shadow-50);
     position: absolute;
@@ -108,7 +112,6 @@ header {
     }
 
     .header-nav__item {
-        font-size: 12px;
         padding: 7px 4px;
         letter-spacing: 0.03rem;
     }

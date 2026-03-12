@@ -9,5 +9,7 @@ import { RouterLink } from "@angular/router";
   styleUrl: './home.scss',
 })
 export class Home {
-
+  public goToInstagram() {
+    window.open("https://www.instagram.com/deroocleaning", "_blank");
+  }
 }
