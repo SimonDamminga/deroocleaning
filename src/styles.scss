@@ -1,9 +1,4 @@
-
-// Include theming for Angular Material with `mat.theme()`.
-// This Sass mixin will define CSS variables that are used for styling Angular Material
-// components according to the Material 3 design spec.
-// Learn more about theming and how to use it for your application's
-// custom components at https://material.angular.dev/guide/theming
+// 1. Angular Material Setup
 @use '@angular/material' as mat;
 
 html {
@@ -18,30 +13,10 @@ html {
   ));
 }
 
-body {
-  // Default the application to a light color theme. This can be changed to
-  // `dark` to enable the dark color theme, or to `light dark` to defer to the
-  // user's system settings.
-  color-scheme: light;
+// 2. Google Fonts
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700&family=Bebas+Neue&display=swap');
 
-  // Set a default background, font and text colors for the application using
-  // Angular Material's system-level CSS variables. Learn more about these
-  // variables at https://material.angular.dev/guide/system-variables
-  background-color: var(--mat-sys-surface);
-  color: var(--mat-sys-on-surface);
-  font: var(--mat-sys-body-medium);
-
-  // Reset the user agent margin.
-  margin: 0;
-  height: 100%;
-}
-@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700&display=swap');
-
-/* You can add global styles to this file, and also import other style files */
-* {
-    margin: 0;
-}
-
+// 3. Global Variables
 :root {
   --color-primary: #3490ae;
   --color-text: #242424;
@@ -61,10 +36,23 @@ body {
   --color-shadow-50: rgba(0, 0, 0, 0.5);
 }
 
-body {
-  font-family: "Nunito Sans", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+// 4. Base Styles
+* {
+  margin: 0;
+  box-sizing: border-box; // Goede practice voor consistente sizing
 }
 
+body {
+  font-family: "Nunito Sans", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  color-scheme: light;
+  background-color: var(--mat-sys-surface);
+  color: var(--mat-sys-on-surface);
+  font: var(--mat-sys-body-medium);
+  margin: 0;
+  height: 100%;
+}
+
+// 5. Global Typography Classes
 .bebas-neue-regular {
   font-family: "Bebas Neue", sans-serif;
   font-weight: 400;
@@ -72,12 +60,13 @@ body {
 }
 
 .header-text {
-    color: var(--color-primary);
-    font-size: 70px;
+  color: var(--color-primary);
+  font-size: clamp(45px, 8vw, 70px); // Responsive size
 }
 
-.page-section {
-  margin: 56px auto;
+.header-text-container {
+  color: var(--color-primary);
+  font-size: clamp(35px, 6vw, 50px);
 }
 
 .page-title {
@@ -92,23 +81,106 @@ body {
   margin-bottom: 10px;
 }
 
-.page-text {
+.text-main {
   color: var(--color-text);
   font-size: 20px;
   line-height: 1.6;
-  margin-bottom: 14px;
+  margin-bottom: 16px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
 }
 
-.page-text:last-child {
-  margin-bottom: 0;
-}
+// 6. Global Button Styles
+.btn-pill {
+  display: inline-block;
+  cursor: pointer;
+  font-weight: bold;
+  font-family: "Bebas Neue", sans-serif;
+  letter-spacing: 0.1rem;
+  text-decoration: none;
+  border-radius: 50px;
+  border: 1px solid var(--color-accent-30);
+  background: var(--color-accent-60);
+  box-shadow: 0 4px 30px var(--color-shadow-20);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  transition: background 0.3s ease;
+  color: var(--color-text);
+  text-align: center;
+  line-height: 1;
 
-@media only screen and (max-width: 991px) {
-  .page-section {
-    margin: 40px auto;
+  &:hover {
+    background: var(--color-accent-80);
+    font-style: italic;
   }
 
-  .page-text {
+  &.btn-large {
+    font-size: 25px;
+    padding: 10px 40px;
+  }
+
+  &.btn-small {
+    font-size: 20px;
+    padding: 8px 24px;
+    border: none;
+  }
+}
+
+.btn-round {
+  width: 60px;
+  height: 60px;
+  font-size: 30px;
+  border-radius: 50%;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  background: var(--color-accent-60);
+  border: 1px solid var(--color-accent-30);
+  box-shadow: 0 4px 30px var(--color-shadow-20);
+  backdrop-filter: blur(5px);
+  color: black;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s;
+  padding: 0;
+
+  &:hover {
+    background: var(--color-accent-80);
+  }
+
+  i {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+// 7. Reusable Layout Containers
+.info-container {
+  padding: 40px 20px;
+
+  & + .info-container {
+    margin-top: 24px;
+  }
+}
+
+.bg-grey-light { background-color: var(--color-overlay-gray-40); }
+.bg-grey-dark { background-color: #333; color: white; }
+
+// 8. Global Media Queries
+@media only screen and (max-width: 991px) {
+  .info-container {
+    padding: 28px 20px;
+  }
+
+  .text-main {
     font-size: 18px;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .header-text {
+    font-size: 60px;
   }
 }

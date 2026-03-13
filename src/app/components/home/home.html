@@ -1,30 +1,34 @@
-<div class="container page-section">
+<div class="container info-container">
     <h1 class="header-text bebas-neue-regular">Dieptereiniging met een glimlach!</h1>
     <h3 class="sub-title">Een stralend resultaat bij DeRooCleaning</h3>
-    <button class="header-action pill-button-header bebas-neue-regular" routerLink="/contact">Maak nu een
+    <button class="header-action btn-pill btn-large bebas-neue-regular" routerLink="/contact">Maak nu een
         afspraak.</button>
 </div>
 <!-- CTA -->
-<div class="info-container grey-background">
-    <div class="content container info-card">
+<div class="info-container bg-grey-light">
+    <div class="content container">
         <h1 class="header-text-container bebas-neue-regular">Meubel- en auto-interieurreiniging aan huis</h1>
-        <p class="normal-text">Bij DeRooCleaning in Dordrecht reinigen we vakkundig uw bank, stoel en auto-interieur.
+        <p class="text-main">Bij DeRooCleaning in Dordrecht reinigen we vakkundig uw bank, stoel en auto-interieur.
             Wij werken op locatie in Zuid-Holland en Brabant; u hoeft alleen stroom te regelen, wij nemen de rest mee.
         </p>
-        <p class="normal-text">Wij zijn momenteel rustig aan het opstarten en nemen <strong>een beperkt aantal klussen
+        <p class="text-main">Wij zijn momenteel rustig aan het opstarten en nemen <strong>een beperkt aantal klussen
                 aan</strong>. Zo kunnen wij elke reiniging met aandacht uitvoeren en de kwaliteit leveren die u mag
             verwachten.</p>
-        <p class="normal-text">Interesse of een vraag? Neem gerust contact op, dan kijken we samen wat mogelijk is.</p>
-        <p class="normal-text"><strong>E-mail:</strong>&nbsp;<a class="link"
-                href="mailto:deroocleaning@gmail.com">deroocleaning@gmail.com</a> | <strong>WhatsApp:</strong>&nbsp;<a
-                class="link" href="https://wa.me/31612278821" target="_blank">+31 6 12278821</a></p>
+        <p class="text-main">Interesse of een vraag? Neem gerust contact op, dan kijken we samen wat mogelijk is.</p>
+        <button class="btn-round" (click)="goToSocials(SocialType.Email)">
+            <i class="fa-regular fa-envelope"></i>
+        </button>
+        &nbsp;&nbsp;
+        <button class="btn-round" (click)="goToSocials(SocialType.WhatsApp)">
+            <i class="fa-brands fa-whatsapp"></i>
+        </button>
     </div>
 </div>
 <!-- Services -->
 <div class="info-container">
     <div class="content container">
         <h1 class="header-text-container bebas-neue-regular">Onze diensten</h1>
-        <p class="normal-text">Gun uw interieur een tweede leven. Van hardnekkige vlekken in uw bank tot een volledige dieptereiniging van uw auto: wij komen bij u langs voor een resultaat dat gezien (en geroken) mag worden.</p>
+        <p class="text-main">Gun uw interieur een tweede leven. Van hardnekkige vlekken in uw bank tot een volledige dieptereiniging van uw auto: wij komen bij u langs voor een resultaat dat gezien (en geroken) mag worden.</p>
         <div class="alert alert-warning" role="alert">
             Let op: meubel- en bankreiniging is momenteel beperkt beschikbaar.
         </div>
@@ -37,7 +41,7 @@
                         gevoel tijdens het rijden.</p>
                 </div>
                 <div class="button-box">
-                    <button class="pill-button-service bebas-neue-regular">Lees meer.</button>
+                    <button class="btn-pill btn-small bebas-neue-regular">Lees meer.</button>
                 </div>
             </div>
             <div class="service" tiltCard>
@@ -48,7 +52,7 @@
                         uitstraling in huis.</p>
                 </div>
                 <div class="button-box">
-                    <button class="pill-button-service bebas-neue-regular">Lees meer.</button>
+                    <button class="btn-pill btn-small bebas-neue-regular">Lees meer.</button>
                 </div>
             </div>
             <div class="service" tiltCard>
@@ -59,14 +63,14 @@
                         de bank weer een nieuw leven in te blazen.</p>
                 </div>
                 <div class="button-box">
-                    <button class="pill-button-service bebas-neue-regular">Lees meer.</button>
+                    <button class="btn-pill btn-small bebas-neue-regular">Lees meer.</button>
                 </div>
             </div>
         </div>
     </div>
 </div>
 <!-- FAQ -->
-<div class="info-container dark-grey-background">
+<div class="info-container bg-grey-dark">
     <div class="content container">
         <h1 class="header-text-container bebas-neue-regular">Veelgestelde vragen</h1>
         <div class="accordion" id="accordionExample">
@@ -119,9 +123,9 @@
 <div class="info-container">
     <div class="content container">
         <h1 class="header-text-container bebas-neue-regular">Bekijk ons werk</h1>
-        <p class="normal-text">Bij elke klus nemen we de tijd en streven we naar het beste resultaat!</p>
+        <p class="text-main">Bij elke klus nemen we de tijd en streven we naar het beste resultaat!</p>
         
-        <button class="round-button" (click)="goToInstagram()">
+        <button class="btn-round" (click)="goToSocials(SocialType.Instagram)">
             <i class="fa-brands fa-instagram"></i>
         </button>
     </div>

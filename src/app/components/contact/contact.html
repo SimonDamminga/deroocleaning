@@ -1,9 +1,9 @@
-<section class="container contact page-section">
+<section class="container contact info-container">
     <h1 class="page-title bebas-neue-regular">Neem contact met ons op</h1>
     <div class="content">
         <div class="form">
             <form [formGroup]="contactForm">
-                <p class="normal-text">Persoonlijke gegevens:</p>
+                <p class="text-main">Persoonlijke gegevens:</p>
                 <div class="form-row">
                     <mat-form-field>
                         <mat-label>Voornaam</mat-label>
@@ -23,12 +23,12 @@
                     </mat-form-field>
 
                     <mat-form-field>
-                        <mat-label>Telefoonnummer</mat-label>
+                        <mat-label>Telefoonnr</mat-label>
                         <input type="tel" matInput placeholder="06 12345678" formControlName="phone">
                     </mat-form-field>
                 </div>
 
-                <p class="normal-text">Adres gegevens:</p>
+                <p class="text-main">Adres gegevens:</p>
                 <div class="form-row">
                     <mat-form-field style="flex: 2;">
                         <mat-label>Postcode</mat-label>
@@ -36,7 +36,7 @@
                     </mat-form-field>
 
                     <mat-form-field style="flex: 1;">
-                        <mat-label>Huisnummer</mat-label>
+                        <mat-label>Huisnr</mat-label>
                         <input matInput placeholder="1" formControlName="houseNumber">
                     </mat-form-field>
                     
@@ -54,7 +54,7 @@
                     <mat-spinner [diameter]="20"></mat-spinner>
                 }
 
-                <p class="normal-text">Aanvullende informatie:</p>
+                <p class="text-main">Aanvullende informatie:</p>
                 <mat-form-field class="full-width">
                     <mat-label>Gekozen dienst</mat-label>
                     <mat-select>
@@ -69,14 +69,14 @@
                     <textarea matInput rows="5" placeholder="Waar kunnen we u mee helpen?"></textarea>
                 </mat-form-field>
 
-                <button mat-raised-button color="primary" type="submit" class="submit-btn">
-                    Verstuur Bericht
+                <button color="primary" type="submit" class="btn-pill btn-large">
+                    Verstuur Bericht.
                 </button>                
             </form>
         </div>
 
-        <div class="map-container">
-            <div id="map"></div>
+        <div class="img-container">
+            <img src="contact-img.jpg" alt="Contact Map">
         </div>
     </div>
 </section>

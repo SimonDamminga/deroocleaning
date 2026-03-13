@@ -13,12 +13,16 @@
   flex-direction: column;
 }
 
-.map-container {
+.img-container {
   width: 50%;
-  max-height: 550px; // Zorg voor voldoende hoogte
+  height: 800px;
   border-radius: 8px;
   overflow: hidden;
   border: 1px solid #ddd;
+  img {
+    width: 100%;
+    object-fit: cover;
+  }
 }
 
 #map {
@@ -52,10 +56,16 @@
   margin-top: 1rem;
 }
 
-.normal-text {
+.text-main {
     font-size: 20px;
     line-height: 1.6;
     margin-bottom: 16px;
+}
+
+@media (max-width: 990px) {
+  .img-container {
+    display: none; /* Verbergt de afbeelding op kleine schermen */
+  }
 }
 
 /* Responsive Adjustments */

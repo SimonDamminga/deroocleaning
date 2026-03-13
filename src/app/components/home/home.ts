@@ -9,7 +9,32 @@ import { RouterLink } from "@angular/router";
   styleUrl: './home.scss',
 })
 export class Home {
-  public goToInstagram() {
-    window.open("https://www.instagram.com/deroocleaning", "_blank");
+  public SocialType = SocialType;
+  public goToSocials(type: SocialType) {
+    let url;
+
+    switch (type) {
+      case SocialType.WhatsApp:
+        url = "https://wa.me/31612278821";
+        break;
+      case SocialType.Email:
+        url = "mailto:deroocleaning@gmail.com";
+        break;
+      case SocialType.Instagram:
+        url = "https://www.instagram.com/deroocleaning"
+        break;
+    }
+
+    if (type === SocialType.Email) {
+      window.location.href = url;
+      return;
+    }
+    window.open(url, "_blank");
   }
+}
+
+enum SocialType {
+  WhatsApp = "wa",
+  Email = "mail",
+  Instagram = "insta"
 }

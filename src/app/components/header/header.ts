@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, DestroyRef, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, HostListener, inject, signal } from '@angular/core';
 import { NavigationEnd, Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { filter } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -11,25 +11,15 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   styleUrl: './header.scss',
 })
 export class Header {
-  private readonly router = inject(Router);
-  private readonly destroyRef = inject(DestroyRef);
-  public smallerHeader = signal(false);
+public dropdownOpen = signal(false);
 
-  private isHomeRoute(url: string): boolean {
-    const normalizedUrl = url.split('?')[0].split('#')[0];
-    return normalizedUrl === '/home' || normalizedUrl === '/';
+  toggleDropdown(event: Event) {
+    event.stopPropagation(); // Voorkomt dat het klik-event direct weer sluit
+    this.dropdownOpen.update(val => !val);
   }
 
-  ngOnInit() {
-    this.smallerHeader.set(!this.isHomeRoute(this.router.url));
-
-    this.router.events
-      .pipe(
-        filter((event): event is NavigationEnd => event instanceof NavigationEnd),
-        takeUntilDestroyed(this.destroyRef),
-      )
-      .subscribe((event) => {
-        this.smallerHeader.set(!this.isHomeRoute(event.urlAfterRedirects));
-      });
+  @HostListener('window:click')
+  closeDropdown() {
+    this.dropdownOpen.set(false);
   }
 }
