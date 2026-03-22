@@ -36,13 +36,8 @@
                     </mat-form-field>
 
                     <mat-form-field style="flex: 1;">
-                        <mat-label>Huisnr</mat-label>
+                        <mat-label>Huisnr + toev.</mat-label>
                         <input matInput placeholder="1" formControlName="houseNumber">
-                    </mat-form-field>
-                    
-                    <mat-form-field style="flex: 0.5;">
-                        <mat-label>Toev.</mat-label>
-                        <input matInput placeholder="A">
                     </mat-form-field>
                 </div>
                 @if (!addressLoading() && contactForm.get('street')?.value) {

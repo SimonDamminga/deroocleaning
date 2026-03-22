@@ -2,3 +2,11 @@
     <h1 class="page-title bebas-neue-regular">Onze Diensten</h1>
     <p class="text-main">Wij bieden verschillende reinigingsservices aan. Kies de dienst om hier meer over te weten.</p>
 </section>
+
+@for (service of availableServices(); track $index) {
+<div class="info-container" [ngStyle]="{ 'background-color': service.themeColor }">
+    <div class="content container">
+        <h1 class="header-text-container bebas-neue-regular">{{ service.title }}</h1>
+    </div>
+</div>
+}

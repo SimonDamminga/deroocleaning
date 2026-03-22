@@ -1,8 +1,10 @@
-<div class="container info-container">
-    <h1 class="header-text bebas-neue-regular">Dieptereiniging met een glimlach!</h1>
-    <h3 class="sub-title">Een stralend resultaat bij DeRooCleaning</h3>
-    <button class="header-action btn-pill btn-large bebas-neue-regular" routerLink="/contact">Maak nu een
-        afspraak.</button>
+<div class="info-container">
+    <div class="content container">
+        <h1 class="header-text bebas-neue-regular">Dieptereiniging met een glimlach!</h1>
+        <h3 class="sub-title">Een stralend resultaat bij DeRooCleaning</h3>
+        <button class="header-action btn-pill btn-large bebas-neue-regular" routerLink="/contact">Maak nu een
+            afspraak.</button>        
+    </div>
 </div>
 <!-- CTA -->
 <div class="info-container bg-grey-light">
@@ -33,39 +35,18 @@
             Let op: meubel- en bankreiniging is momenteel beperkt beschikbaar.
         </div>
         <div class="services">
-            <div class="service" tiltCard>
-                <img src="car.jpg" alt="Auto Interieurreiniging">
-                <div class="service-content">
-                    <h2 class="service-title bebas-neue-regular">Auto Interieurreiniging</h2>
-                    <p class="service-description">Complete opfrisbeurt voor uw auto interieur voor een fris en nieuw
-                        gevoel tijdens het rijden.</p>
+            @for (service of availableServices(); track $index) {
+                <div class="service" tiltCard>
+                    <img src="{{ service.imageUrl }}" alt="{{ service.title }}">
+                    <div class="service-content">
+                        <h2 class="service-title bebas-neue-regular">{{ service.title }}</h2>
+                        <p class="service-description">{{ service.description }}</p>
+                    </div>
+                    <div class="button-box">
+                        <button class="btn-pill btn-small bebas-neue-regular">Lees meer.</button>
+                    </div>
                 </div>
-                <div class="button-box">
-                    <button class="btn-pill btn-small bebas-neue-regular">Lees meer.</button>
-                </div>
-            </div>
-            <div class="service" tiltCard>
-                <img src="chair.jpg" alt="Stoelen en Fauteuils">
-                <div class="service-content">
-                    <h2 class="service-title bebas-neue-regular">Stoelen en Fauteuils</h2>
-                    <p class="service-description">Diepe reiniging van uw stoelen of fauteuils voor een frisse
-                        uitstraling in huis.</p>
-                </div>
-                <div class="button-box">
-                    <button class="btn-pill btn-small bebas-neue-regular">Lees meer.</button>
-                </div>
-            </div>
-            <div class="service" tiltCard>
-                <img src="couch.jpg" alt="Bankreiniging">
-                <div class="service-content">
-                    <h2 class="service-title bebas-neue-regular">Bankreiniging</h2>
-                    <p class="service-description">Diepe reiniging van uw bank om vlekken te verwijderen, of gewoon om
-                        de bank weer een nieuw leven in te blazen.</p>
-                </div>
-                <div class="button-box">
-                    <button class="btn-pill btn-small bebas-neue-regular">Lees meer.</button>
-                </div>
-            </div>
+            }
         </div>
     </div>
 </div>

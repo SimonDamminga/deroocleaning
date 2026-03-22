@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, signal, WritableSignal } from '@angular/core';
 import { TiltCardDirective } from '../../directives/tilt-card/tilt-card';
 import { RouterLink } from "@angular/router";
+import { ServicePage, ServicesService } from '../../services/services';
 
 @Component({
   selector: 'app-home',
@@ -10,6 +11,14 @@ import { RouterLink } from "@angular/router";
 })
 export class Home {
   public SocialType = SocialType;
+  public availableServices: WritableSignal<ServicePage[]> = signal([]);
+
+  constructor(private services: ServicesService) {}
+
+  ngOnInit() {
+    this.availableServices.set(this.services.getAllServices().sort((a, b) => a.popularOrder - b.popularOrder));
+  }
+
   public goToSocials(type: SocialType) {
     let url;
 
