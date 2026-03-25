@@ -1,5 +1,6 @@
-import { Component, signal, WritableSignal } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { ServicePage, ServicesService } from '../../services/services';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-services',
@@ -8,13 +9,21 @@ import { ServicePage, ServicesService } from '../../services/services';
   styleUrl: './services.scss',
 })
 export class Services {
-  public availableServices: WritableSignal<ServicePage[]> = signal([]);
+  public service = signal<ServicePage | null>(null);
   public selectedPackage = signal<string | null>(null);
 
-  constructor(private services: ServicesService) {}
+  constructor(private services: ServicesService, private route: ActivatedRoute) {}
 
   ngOnInit() {
-    this.availableServices.set(this.services.getAllServices().sort((a, b) => a.popularOrder - b.popularOrder));
+    this.route.queryParams.subscribe(params => {
+      const serviceId = params['id'];
+      if (serviceId) {
+        const selectedService = this.services.getServiceById(serviceId);
+        if (selectedService) {
+          this.service.set(selectedService);
+        }
+      }
+    });
   }
 
   selectPackage(packageName: string) {
