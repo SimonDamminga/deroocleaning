@@ -1,7 +1,8 @@
-import { ChangeDetectionStrategy, Component, DestroyRef, HostListener, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, HostListener, inject, signal, WritableSignal } from '@angular/core';
 import { NavigationEnd, Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { filter } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { ServicePage, ServicesService } from '../../services/services';
 
 @Component({
   selector: 'app-header',
@@ -11,15 +12,20 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   styleUrl: './header.scss',
 })
 export class Header {
-public dropdownOpen = signal(false);
+  public availableServices: WritableSignal<ServicePage[]> = signal([]);
+  public menuOpen: WritableSignal<boolean> = signal(false);
 
-  toggleDropdown(event: Event) {
-    event.stopPropagation(); // Voorkomt dat het klik-event direct weer sluit
-    this.dropdownOpen.update(val => !val);
+  constructor(private services: ServicesService) {}
+
+  ngOnInit() {
+    this.availableServices.set(this.services.getAllServices().sort((a, b) => a.popularOrder - b.popularOrder));
   }
 
-  @HostListener('window:click')
-  closeDropdown() {
-    this.dropdownOpen.set(false);
+  toggleMenu() {
+    this.menuOpen.set(!this.menuOpen());
+  }
+
+  closeMenu() {
+    this.menuOpen.set(false);
   }
 }

@@ -1,0 +1,86 @@
+.services-container {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+    padding-bottom: 5rem;
+}
+
+.service-section {
+    background: #fff;
+    border-radius: 15px;
+    padding: 2rem;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+
+    .service-header {
+        margin-bottom: 2rem;
+        h2 { font-size: 2.5rem; margin: 0; color: #2c3e50; }
+        .service-description { color: #7f8c8d; font-size: 1.1rem; }
+    }
+}
+
+.packages-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.package-card {
+    border: 1px solid #eee;
+    border-radius: 12px;
+    padding: 1.5rem;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.3s ease;
+
+    &:hover { border-color: #bdc3c7; transform: translateY(-3px); }
+
+    &.popular {
+        border: 2px solid #2c3e50;
+        background: #fcfcfc;
+        .popular-tag {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #2c3e50;
+            color: white;
+            padding: 2px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+        }
+    }
+
+    h3 { margin: 0 0 0.5rem 0; font-size: 1.3rem; }
+    .pkg-description { font-size: 0.9rem; color: #95a5a6; margin-bottom: 1rem; }
+
+    .price-tag {
+        margin: 1rem 0;
+        .amount { font-size: 1.8rem; font-weight: bold; color: #2c3e50; }
+        .from { font-size: 0.9rem; color: #7f8c8d; margin-right: 4px; }
+    }
+
+    .feature-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        li {
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+            color: #555;
+            .check-icon { color: #27ae60; margin-right: 8px; font-weight: bold; }
+        }
+    }
+}
+
+.service-footer-info {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px dashed #eee;
+    font-size: 0.85rem;
+    color: #7f8c8d;
+}

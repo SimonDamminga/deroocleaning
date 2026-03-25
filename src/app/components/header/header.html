@@ -1,10 +1,28 @@
-<header class="container">
-    <nav class="header-nav">
-        <button class="header-nav__item bebas-neue-regular" routerLink="/home" routerLinkActive="is-active"
-            [routerLinkActiveOptions]="{ exact: true }">HOME.</button>
-        <button class="header-nav__item bebas-neue-regular" routerLink="/services" routerLinkActive="is-active">DIENSTEN.</button>
-        <button class="header-nav__item bebas-neue-regular" routerLink="/about" routerLinkActive="is-active">OVER ONS.</button>
-        <button class="header-nav__item bebas-neue-regular" routerLink="/contact" routerLinkActive="is-active">CONTACT.</button>
+<nav class="header-nav container">
+    <button class="header-link bebas-neue-regular" routerLink="/home" routerLinkActive="is-active" (click)="closeMenu()">Home.</button>
+    @for (service of availableServices(); track service.id) {
+        <button class="header-link bebas-neue-regular" routerLink="/services" [queryParams]="{ id: service.id }" routerLinkActive="is-active" (click)="closeMenu()">{{ service.title }}.</button>
+    }
+    <button class="header-link bebas-neue-regular" routerLink="/about" routerLinkActive="is-active" (click)="closeMenu()">Over ons.</button>
+    <button class="header-link bebas-neue-regular" routerLink="/contact" routerLinkActive="is-active" (click)="closeMenu()">Contact.</button>
+</nav>
+<div class="hamburger-menu" [class.menu-open]="menuOpen()" (click)="toggleMenu()">
+    <div class="menu-icon" [class.menu-open]="menuOpen()">
+        <div class="bar1"></div>
+        <div class="bar2"></div>
+        <div class="bar3"></div>
+    </div>
+</div>
+<div class="nav-overlay" [class.menu-open]="menuOpen()">
+    <nav class="header-nav container">
+        <button class="header-link bebas-neue-regular" routerLink="/home" routerLinkActive="is-active" (click)="closeMenu()">Home.</button>
+        @for (service of availableServices(); track service.id) {
+            <button class="header-link bebas-neue-regular" routerLink="/services" [queryParams]="{ id: service.id }" routerLinkActive="is-active" (click)="closeMenu()">{{ service.title }}.</button>
+        }
+        <button class="header-link bebas-neue-regular" routerLink="/about" routerLinkActive="is-active" (click)="closeMenu()">Over ons.</button>
+        <button class="header-link bebas-neue-regular" routerLink="/contact" routerLinkActive="is-active" (click)="closeMenu()">Contact.</button>
     </nav>
-    <img class="header__logo" src="roo-cleaning-logo.jpg" alt="Roo Cleaning Logo">
+</div>
+<header class="container">
+    <img class="header__logo" src="roo-cleaning-logo.jpg" alt="Roo Cleaning Logo" routerLink="/home">
 </header>

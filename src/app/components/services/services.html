@@ -1,12 +1,59 @@
-<section class="container contact info-container">
+<section class="container info-container">
     <h1 class="page-title bebas-neue-regular">Onze Diensten</h1>
-    <p class="text-main">Wij bieden verschillende reinigingsservices aan. Kies de dienst om hier meer over te weten.</p>
+    <p class="text-main">Kies een dienst voor een diepgaande reiniging op locatie.</p>
 </section>
 
-@for (service of availableServices(); track $index) {
-<div class="info-container" [ngStyle]="{ 'background-color': service.themeColor }">
-    <div class="content container">
-        <h1 class="header-text-container bebas-neue-regular">{{ service.title }}</h1>
+<div class="services-container container">
+    @for (service of availableServices(); track service.id) {
+    <div class="service-section">
+        <div class="service-header">
+            <h2 class="bebas-neue-regular">{{ service.title }}</h2>
+            <p class="service-description">{{ service.description }}</p>
+        </div>
+
+        <div class="packages-grid">
+            @for (pkg of service.packages; track pkg.name) {
+            <div class="package-card" [class.popular]="pkg.isPopular">
+                @if (pkg.isPopular) {
+                    <div class="popular-tag">Meest gekozen</div>
+                }
+                
+                <h3>{{ pkg.name }}</h3>
+                @if (pkg.description) {
+                    <p class="pkg-description">{{ pkg.description }}</p>
+                }
+                
+                <div class="price-tag">
+                    @if (pkg.price.toString().includes('Vanaf') || pkg.priceLabel) {
+                        <span class="from">Vanaf</span>
+                    }
+                    <span class="amount">€{{ pkg.price }}</span>
+                </div>
+
+                <ul class="feature-list">
+                    @for (feature of pkg.features; track feature) {
+                    <li>
+                        <span class="check-icon">✓</span> {{ feature }}
+                    </li>
+                    }
+                </ul>
+            </div>
+            }
+        </div>
+
+        <div class="service-footer-info">
+            @if (service.importantNotes.minimumOrder) {
+                <div class="info-item">
+                    <strong>Min. bestelling:</strong> {{ service.importantNotes.minimumOrder }}
+                </div>
+            }
+            <div class="info-item">
+                <strong>Droogtijd:</strong> {{ service.importantNotes.dryingTime }}
+            </div>
+            <div class="info-item">
+                <strong>Info:</strong> {{ service.importantNotes.resultInfo }}
+            </div>
+        </div>
     </div>
+    }
 </div>
-}
