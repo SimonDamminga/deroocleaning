@@ -23,6 +23,6 @@
         <button class="header-link bebas-neue-regular" routerLink="/contact" routerLinkActive="is-active" (click)="closeMenu()">Contact.</button>
     </nav>
 </div>
-<header class="container">
+<header class="container" setBackgroundImage [imageUrl]="selectedBackground()">
     <img class="header__logo" src="roo-cleaning-logo.jpg" alt="Roo Cleaning Logo" routerLink="/home">
 </header>

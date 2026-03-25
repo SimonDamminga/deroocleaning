@@ -1,11 +1,14 @@
 import { Injectable } from '@angular/core';
 
 interface CleaningPackage {
+  id: string; // Unieke ID voor elk pakket (bijv. "basis-clean", "deep-clean")
   name: string;
   price: number;
   priceLabel?: string; // Voor "Vanaf" of "Setprijs"
   description?: string;
   features: string[];
+  options?: string[]; // Voor variaties binnen een pakket (bijv. "2-zits (€75)", "3-zits (€95)")
+  optionalExtras?: string[]; // Voor extra's die los toegevoegd kunnen worden (bijv. "Vlekverwijdering +€20")
   isPopular?: boolean;
 }
 
@@ -40,17 +43,20 @@ private readonly cleaningServices: Record<string, ServicePage> = {
     themeColor: "#e3f2fd", // Lichtblauw/grijs
     packages: [
       {
+        id: "basis-clean",
         name: "Interieur Basis Clean",
         price: 100,
         features: ["Stofzuigen", "Dashboard & panelen", "Ramen binnenzijde", "Luchtroosters"]
       },
       {
+        id: "deep-clean",
         name: "Interieur Deep Clean",
         price: 150,
         features: ["Alles van Basis Clean", "Dieptereiniging stoelen", "Leder behandeling", "Geurverbetering"],
         isPopular: true
       },
       {
+        id: "stoel-vlekken-clean",
         name: "Stoel & Vlekken Clean",
         price: 60,
         features: ["Dieptereiniging zitplekken", "Stofzuigen", "Vlek & geurverwijdering"]
@@ -59,28 +65,32 @@ private readonly cleaningServices: Record<string, ServicePage> = {
     importantNotes: { dryingTime: "ca. 2 uur", resultInfo: "Prijzen incl. btw voor particulieren" }
   },
   stoelen: {
-    id: "stoelen-fauteuils",
-    title: "Stoelen en Fauteuils",
+    id: "stoelen",
+    title: "Stoelen",
     description: "Diepe reiniging van uw stoelen of fauteuils voor een frisse uitstraling in huis.",
     popularOrder: 2,
     imageUrl: "chair.jpg",
     themeColor: "#c1c1c166",
     packages: [
       {
-        name: "Eetkamerstoelen Set",
+        id: "eetkamerstoelen",
+        name: "Eetkamerstoelen",
         price: 75,
         priceLabel: "Vanaf",
-        description: "Volledige set (4-6 stuks)",
-        features: ["Voorinspectie stof", "Dieptereiniging", "Bacteriën verwijderen", "Uitsluitend complete set"],
+        description: "Uitsluitend volledige set (4-6 stuks)",
+        features: ["Voorinspectie stof", "Dieptereiniging", "Bacteriën verwijderen", "Geurverwijdering"],
         isPopular: true
       },
       {
-        name: "Fauteuil",
+        id: "fauteuil",
+        name: "Zitmeubels",
+        description: "Individuele stoelen, fauteuils of kleine zitmeubels",
+        priceLabel: "Vanaf",
         price: 75,
-        features: ["Dieptereiniging", "Geurverwijdering", "Licht vochtig na behandeling"]
+        features: ["Voorinspectie stof", "Dieptereiniging", "Bacteriën verwijderen", "Geurverwijdering"]
       }
     ],
-    importantNotes: { minimumOrder: "€75", dryingTime: "4-8 uur", resultInfo: "Afhankelijk van vervuiling" }
+    importantNotes: { minimumOrder: "€75", dryingTime: "4-8 uur", resultInfo: "Afhankelijk van vervuiling & soort stof" }
   },
   bank: {
     id: "bankreiniging",
@@ -91,17 +101,23 @@ private readonly cleaningServices: Record<string, ServicePage> = {
     themeColor: "#f5f5f5",
     packages: [
       {
+        id: "standaard-bank",
         name: "Standaard Bank",
         price: 75,
         priceLabel: "Vanaf",
-        features: ["2-zits (€75)", "3-zits (€95)", "4-zits (€115)"],
+        features: ["Grondige stofzuigbeurt", "Dieptereiniging", "Vlekherstel", "Geurverwijdering"],
+        optionalExtras: ["Intensieve vlekbehandeling (€20)", "Huisdieren en geuren (€15)"],
+        options: ["2-zits (€75)", "3-zits (€95)", "4-zits (€115)"],
         isPopular: true
       },
       {
+        id: "hoekbank",
         name: "Hoekbank",
         price: 125,
         priceLabel: "Vanaf",
-        features: ["Klein (€125)", "Middel (€145)", "Groot/U-vorm (€165+)"]
+        features: ["Grondige stofzuigbeurt", "Dieptereiniging", "Vlekherstel", "Geurverwijdering"],
+        optionalExtras: ["Intensieve vlekbehandeling (€20)", "Huisdieren en geuren (€15)"],
+        options: ["Klein (€125)", "Middel (€145)", "Groot/U-vorm (€165+)"]
       }
     ],
     importantNotes: { minimumOrder: "€75", dryingTime: "4-8 uur", resultInfo: "Resultaat afhankelijk van stof" }
