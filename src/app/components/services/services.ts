@@ -10,6 +10,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class Services {
   public service = signal<ServicePage | null>(null);
+  public serviceId = signal<string | null>(null);
   public selectedPackage = signal<string | null>(null);
 
   constructor(private services: ServicesService, private route: ActivatedRoute) {}
@@ -18,6 +19,7 @@ export class Services {
     this.route.queryParams.subscribe(params => {
       const serviceId = params['id'];
       if (serviceId) {
+        this.serviceId.set(serviceId);
         const selectedService = this.services.getServiceById(serviceId);
         if (selectedService) {
           this.service.set(selectedService);
@@ -27,13 +29,19 @@ export class Services {
   }
 
   selectPackage(packageName: string) {
-    // Als je er nogmaals op klikt, deselecteer je hem (optioneel)
     if (this.selectedPackage() === packageName) {
       this.selectedPackage.set(null);
     } else {
       this.selectedPackage.set(packageName);
     }
-    
-    console.log("Gekozen pakket:", packageName);
+  }
+
+  isPackageSelected(packageName: string): boolean {
+    return this.selectedPackage() === packageName;
+  }
+
+  isButtonEnabled(): boolean {
+    const selectedPackage = this.selectedPackage()?.split('/')[0] || null;
+    return this.serviceId() === selectedPackage ? this.selectedPackage() !== null : false;
   }
 }

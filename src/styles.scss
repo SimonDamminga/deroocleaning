@@ -111,11 +111,6 @@ body {
   text-align: center;
   line-height: 1;
 
-  &:hover {
-    background: var(--color-accent-80);
-    font-style: italic;
-  }
-
   &.btn-large {
     font-size: 25px;
     padding: 10px 40px;
@@ -125,6 +120,21 @@ body {
     font-size: 20px;
     padding: 8px 24px;
     border: none;
+  }
+
+  /* Specifieke styling voor de disabled status */
+  &:disabled {
+    cursor: not-allowed;      /* Verandert de muis in een 'verboden' teken */
+    opacity: 0.5;             /* Maakt de knop lichter/transparanter */
+    filter: grayscale(1);     /* Haalt de kleur eruit voor een grijze look */
+    box-shadow: none;         /* Verwijdert de schaduw zodat hij 'plat' lijkt */
+    pointer-events: none;     /* Zorgt dat er echt niets gebeurt bij een klik */
+  }
+
+  /* Zorg dat de hover effecten NIET werken als hij disabled is */
+  &:hover:not(:disabled) {
+    background: var(--color-accent-80);
+    font-style: italic;
   }
 }
 

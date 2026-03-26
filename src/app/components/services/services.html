@@ -7,7 +7,7 @@
 
         <div class="packages-grid">
             @for (pkg of service()?.packages; track pkg.name) {
-            <div class="package-card" [class.popular]="pkg.isPopular" (click)="selectPackage(service()?.id + '-' + pkg.id)">
+            <div class="package-card" [class.popular]="pkg.isPopular" [class.selected]="isPackageSelected(service()?.id + '/' + pkg.id)" (click)="selectPackage(service()?.id + '/' + pkg.id)">
                 @if (pkg.isPopular) {
                     <div class="popular-tag">Meest gekozen</div>
                 }
@@ -53,16 +53,21 @@
         </div>
 
         <div class="service-footer-info">
-            @if (service()?.importantNotes?.minimumOrder) {
+            <div class="info-items">
+                @if (service()?.importantNotes?.minimumOrder) {
+                    <div class="info-item">
+                        <strong>Min. bestelling:</strong> {{ service()?.importantNotes?.minimumOrder }}
+                    </div>
+                }
                 <div class="info-item">
-                    <strong>Min. bestelling:</strong> {{ service()?.importantNotes?.minimumOrder }}
+                    <strong>Droogtijd:</strong> {{ service()?.importantNotes?.dryingTime }}
                 </div>
-            }
-            <div class="info-item">
-                <strong>Droogtijd:</strong> {{ service()?.importantNotes?.dryingTime }}
+                <div class="info-item">
+                    <strong>Info:</strong> {{ service()?.importantNotes?.resultInfo }}
+                </div>
             </div>
-            <div class="info-item">
-                <strong>Info:</strong> {{ service()?.importantNotes?.resultInfo }}
+            <div class="button">
+                <button class="btn-pill btn-small" [disabled]="!isButtonEnabled()">Maak nu een afspraak.</button>
             </div>
         </div>
     </div>

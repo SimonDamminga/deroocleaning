@@ -43,7 +43,7 @@
                         <p class="service-description">{{ service.description }}</p>
                     </div>
                     <div class="button-box">
-                        <button class="btn-pill btn-small bebas-neue-regular">Lees meer.</button>
+                        <button class="btn-pill btn-small bebas-neue-regular" routerLink="/services" [queryParams]="{ id: service.id }">Lees meer.</button>
                     </div>
                 </div>
             }

@@ -34,6 +34,7 @@
     display: flex;
     flex-direction: column;
     transition: all 0.3s ease;
+    cursor: pointer;
 
     &:hover { border-color: #bdc3c7; transform: translateY(-3px); }
 
@@ -52,6 +53,12 @@
             font-size: 0.75rem;
             text-transform: uppercase;
         }
+    }
+
+    &.selected {
+        border: 2px solid #2980b9;
+        background: #ecf0f1;
+        .popular-tag { background: #2980b9; }
     }
 
     h3 { margin: 0 0 0.5rem 0; font-size: 1.3rem; }
@@ -87,10 +94,23 @@
 
 .service-footer-info {
     display: flex;
+    justify-content: space-between;
     flex-wrap: wrap;
     gap: 2rem;
     padding-top: 1.5rem;
     border-top: 1px dashed #eee;
     font-size: 0.85rem;
     color: #7f8c8d;
+}
+
+@media only screen and (max-width: 575px) {
+    .services-container {
+        padding: 0px;
+        margin-top: 40px;
+    }
+    .service-section {
+        border: none;
+        box-shadow: none;
+        border-radius: 0px;
+    }
 }
