@@ -1,10 +1,13 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ServicePage, ServicesService } from '../../services/services';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Package } from './package/package';
 
 @Component({
   selector: 'app-services',
-  imports: [],
+  imports: [
+    Package
+  ],
   templateUrl: './services.html',
   styleUrl: './services.scss',
 })
@@ -13,7 +16,9 @@ export class Services {
   public serviceId = signal<string | null>(null);
   public selectedPackage = signal<string | null>(null);
 
-  constructor(private services: ServicesService, private route: ActivatedRoute) {}
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
+  private services = inject(ServicesService);
 
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
@@ -43,5 +48,16 @@ export class Services {
   isButtonEnabled(): boolean {
     const selectedPackage = this.selectedPackage()?.split('/')[0] || null;
     return this.serviceId() === selectedPackage ? this.selectedPackage() !== null : false;
+  }
+
+  goToContact() {
+    const selectedPackage = this.selectedPackage(); 
+
+    console.log('SelectedPackage:', selectedPackage);
+
+    if (selectedPackage) {
+      const [serviceId, packageName] = selectedPackage.split('/');
+      this.router.navigate(['/contact'], { queryParams: { serviceId, packageName } });
+    }
   }
 }

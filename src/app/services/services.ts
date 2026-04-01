@@ -7,8 +7,8 @@ interface CleaningPackage {
   priceLabel?: string; // Voor "Vanaf" of "Setprijs"
   description?: string;
   features: string[];
-  options?: string[]; // Voor variaties binnen een pakket (bijv. "2-zits (€75)", "3-zits (€95)")
-  optionalExtras?: string[]; // Voor extra's die los toegevoegd kunnen worden (bijv. "Vlekverwijdering +€20")
+  options?: Option[]; // Voor variaties binnen een pakket (bijv. "2-zits (€75)", "3-zits (€95)")
+  optionalExtras?: Option[]; // Voor extra's die los toegevoegd kunnen worden (bijv. "Vlekverwijdering +€20")
   isPopular?: boolean;
 }
 
@@ -25,6 +25,11 @@ export interface ServicePage {
     dryingTime: string;
     resultInfo: string;
   };
+}
+
+export interface Option {
+  description: string;
+  price: number;
 }
 
 @Injectable({
@@ -106,8 +111,15 @@ private readonly cleaningServices: Record<string, ServicePage> = {
         price: 75,
         priceLabel: "Vanaf",
         features: ["Grondige stofzuigbeurt", "Dieptereiniging", "Vlekherstel", "Geurverwijdering"],
-        optionalExtras: ["Intensieve vlekbehandeling (€20)", "Huisdieren en geuren (€15)"],
-        options: ["2-zits (€75)", "3-zits (€95)", "4-zits (€115)"],
+        optionalExtras: [
+          { description: "Intensieve vlekbehandeling", price: 20 },
+          { description: "Huisdieren en geuren", price: 15 }
+        ],
+        options: [
+          { description: "2-zits", price: 75 },
+          { description: "3-zits", price: 95 },
+          { description: "4-zits", price: 115 }
+        ],
         isPopular: true
       },
       {
@@ -116,8 +128,15 @@ private readonly cleaningServices: Record<string, ServicePage> = {
         price: 125,
         priceLabel: "Vanaf",
         features: ["Grondige stofzuigbeurt", "Dieptereiniging", "Vlekherstel", "Geurverwijdering"],
-        optionalExtras: ["Intensieve vlekbehandeling (€20)", "Huisdieren en geuren (€15)"],
-        options: ["Klein (€125)", "Middel (€145)", "Groot/U-vorm (€165+)"]
+        optionalExtras: [
+          { description: "Intensieve vlekbehandeling", price: 20 },
+          { description: "Huisdieren en geuren", price: 15 }
+        ],
+        options: [
+          { description: "Klein", price: 125 },
+          { description: "Middel", price: 145 },
+          { description: "Groot/U-vorm", price: 165 }
+        ]
       }
     ],
     importantNotes: { minimumOrder: "€75", dryingTime: "4-8 uur", resultInfo: "Resultaat afhankelijk van stof" }

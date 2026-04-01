@@ -36,7 +36,7 @@
         </div>
         <div class="services">
             @for (service of availableServices(); track $index) {
-                <div class="service" tiltCard>
+                <div class="service">
                     <img src="{{ service.imageUrl }}" alt="{{ service.title }}">
                     <div class="service-content">
                         <h2 class="service-title bebas-neue-regular">{{ service.title }}</h2>
@@ -51,7 +51,7 @@
     </div>
 </div>
 <!-- FAQ -->
-<div class="info-container bg-grey-dark">
+<div class="info-container bg-grey-light">
     <div class="content container">
         <h1 class="header-text-container bebas-neue-regular">Veelgestelde vragen</h1>
         <div class="accordion" id="accordionExample">

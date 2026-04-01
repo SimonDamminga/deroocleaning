@@ -1,11 +1,9 @@
 import { Component, signal, WritableSignal } from '@angular/core';
-import { TiltCardDirective } from '../../directives/tilt-card/tilt-card';
 import { RouterLink } from "@angular/router";
 import { ServicePage, ServicesService } from '../../services/services';
-
 @Component({
   selector: 'app-home',
-  imports: [TiltCardDirective, RouterLink],
+  imports: [RouterLink],
   templateUrl: './home.html',
   styleUrl: './home.scss',
 })

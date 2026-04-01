@@ -7,48 +7,7 @@
 
         <div class="packages-grid">
             @for (pkg of service()?.packages; track pkg.name) {
-            <div class="package-card" [class.popular]="pkg.isPopular" [class.selected]="isPackageSelected(service()?.id + '/' + pkg.id)" (click)="selectPackage(service()?.id + '/' + pkg.id)">
-                @if (pkg.isPopular) {
-                    <div class="popular-tag">Meest gekozen</div>
-                }
-                
-                <h3>{{ pkg.name }}</h3>
-                @if (pkg.description) {
-                    <p class="pkg-description">{{ pkg.description }}</p>
-                }
-                
-                <div class="price-tag">
-                    @if (pkg.price.toString().includes('Vanaf') || pkg.priceLabel) {
-                        <span class="from">Vanaf</span>
-                    }
-                    <span class="amount">€{{ pkg.price }}</span>
-                </div>
-
-                @if (pkg.options?.length) {
-                    <ul class="feature-list">
-                        @for (option of pkg.options; track option) {
-                        <li>{{ option }}</li>
-                        }
-                    </ul>
-                }
-
-                <ul class="feature-list">
-                    @for (feature of pkg.features; track feature) {
-                    <li>
-                        <span class="check-icon">✓</span> {{ feature }}
-                    </li>
-                    }
-                </ul>
-                @if (pkg.optionalExtras?.length) {
-                <ul class="feature-list extras">
-                    @for (extra of pkg.optionalExtras; track extra) {
-                    <li>
-                        <span class="plus-icon extras">+</span> {{ extra }}
-                    </li>
-                    }
-                </ul>
-                }
-            </div>
+            <app-package [package]="pkg" [isSelected]="isPackageSelected(service()?.id + '/' + pkg.id)" (selectedPackage)="selectPackage(service()?.id + '/' + $event)"></app-package>
             }
         </div>
 
@@ -67,7 +26,7 @@
                 </div>
             </div>
             <div class="button">
-                <button class="btn-pill btn-small" [disabled]="!isButtonEnabled()">Maak nu een afspraak.</button>
+                <button class="btn-pill btn-small" [disabled]="!isButtonEnabled()" (click)="goToContact()">Maak nu een afspraak.</button>
             </div>
         </div>
     </div>

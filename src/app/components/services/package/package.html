@@ -1,0 +1,42 @@
+<div class="package-card" [class.popular]="package()?.isPopular && selectable()" [class.selected]="isSelected()" [class.selectable]="selectable()" (click)="selectPackage()">
+    @if (package()?.isPopular && selectable()) {
+        <div class="popular-tag">Meest gekozen</div>
+    }
+    
+    <h3>{{ package()?.name }}</h3>
+    @if (package()?.description) {
+        <p class="pkg-description">{{ package()?.description }}</p>
+    }
+    
+    <div class="price-tag">
+        @if (package()?.price.toString().includes('Vanaf') || package()?.priceLabel) {
+            <span class="from">Vanaf</span>
+        }
+        <span class="amount">€{{ package()?.price }}</span>
+    </div>
+
+    @if (package()?.options?.length && selectable()) {
+        <ul class="feature-list">
+            @for (option of package()?.options; track option) {
+            <li>{{ option.description }} - €{{ option.price }}</li>
+            }
+        </ul>
+    }
+
+    <ul class="feature-list">
+        @for (feature of package()?.features; track feature) {
+        <li>
+            <span class="check-icon">✓</span> {{ feature }}
+        </li>
+        }
+    </ul>
+    @if (package()?.optionalExtras?.length && selectable()) {
+    <ul class="feature-list extras">
+        @for (extra of package()?.optionalExtras; track extra) {
+        <li>
+            <span class="plus-icon extras">+</span> {{ extra.description }} - €{{ extra.price }}
+        </li>
+        }
+    </ul>
+    }
+</div>

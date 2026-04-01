@@ -1,5 +1,6 @@
 <section class="container contact info-container">
     <h1 class="page-title bebas-neue-regular">Neem contact met ons op</h1>
+    <p class="text-main">Vul het formulier in en wij nemen zo spoedig mogelijk contact met u op.</p>
     <div class="content">
         <div class="form">
             <form [formGroup]="contactForm">
@@ -40,7 +41,7 @@
                         <input matInput placeholder="1" formControlName="houseNumber">
                     </mat-form-field>
                 </div>
-                @if (!addressLoading() && contactForm.get('street')?.value) {
+                @if (!addressLoading() && contactForm.get('street')?.value && addressError() === null) {
                     <div class="address-feedback">
                         <p><strong>Gevonden adres:</strong> {{ contactForm.get('street')?.value }}&nbsp;{{ contactForm.get('houseNumber')?.value }},&nbsp;{{ contactForm.get('postCode')?.value }}&nbsp;{{ contactForm.get('city')?.value }}</p>
                     </div>
@@ -48,30 +49,69 @@
                 @if (addressLoading()) {
                     <mat-spinner [diameter]="20"></mat-spinner>
                 }
+                @if (addressError() !== null) {
+                    <div class="address-error">
+                        <p>{{ addressError() }}</p>
+                    </div>
+                }
 
                 <p class="text-main">Aanvullende informatie:</p>
-                <mat-form-field class="full-width">
-                    <mat-label>Gekozen dienst</mat-label>
-                    <mat-select>
-                        <mat-option value="car">Auto Interieurreiniging</mat-option>
-                        <mat-option value="chair">Stoelen en Fauteuils</mat-option>
-                        <mat-option value="couch">Bankreiniging</mat-option>
-                    </mat-select>
-                </mat-form-field>
+                @if (package()) {
+                    <div class="package-options">
+                        @if (package()?.options?.length) {
+                            <div class="options" formGroupName="options">
+                                <p class="package-options-text">Opties: <small>(min. 1 verplicht)</small></p>
+                                @if (contactForm.controls.options.touched && contactForm.controls.options.errors?.['minSelected']) {
+                                    <mat-error>Selecteer minimaal één optie.</mat-error>
+                                }
+                                <ul class="feature-list">
+                                    @for (option of package()?.options; track option.description) {
+                                        <li>
+                                            <mat-checkbox [formControlName]="option.description">
+                                                {{option.description}} - €{{option.price}}
+                                            </mat-checkbox>
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
+                        }
+
+                        @if (package()?.optionalExtras?.length) {
+                            <div class="extras" formGroupName="optionalExtras">
+                                <p class="package-options-text">Optionele extra's: <small>(min. 1 verplicht)</small></p> 
+                                @if (contactForm.controls.optionalExtras.touched && contactForm.controls.optionalExtras.errors?.['minSelected']) {
+                                    <mat-error>Selecteer minimaal één extra.</mat-error>
+                                }
+                                <ul class="feature-list">
+                                    @for (extra of package()?.optionalExtras; track extra.description) {
+                                        <li>
+                                            <mat-checkbox [formControlName]="extra.description">
+                                                {{extra.description}} - €{{extra.price}}
+                                            </mat-checkbox>
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
+                        }
+                    </div>
+                }
 
                 <mat-form-field class="full-width">
                     <mat-label>Uw bericht</mat-label>
-                    <textarea matInput rows="5" placeholder="Waar kunnen we u mee helpen?"></textarea>
+                    <textarea formControlName="message" matInput rows="5" placeholder="Waar kunnen we u mee helpen?"></textarea>
                 </mat-form-field>
 
-                <button color="primary" type="submit" class="btn-pill btn-large">
+                <button color="primary" type="submit" class="btn-pill btn-large" (click)="onSubmit()">
                     Verstuur Bericht.
                 </button>                
             </form>
         </div>
 
-        <div class="img-container">
-            <img src="contact-img.jpg" alt="Contact Map">
+        <div class="pkg-info">
+            @if (package()) {
+                <p class="text-main">Gekozen pakket:</p>
+                <app-package [package]="package()" [isSelected]="false" [selectable]="false" (selectedPackage)="null"></app-package>
+            }
         </div>
     </div>
 </section>

@@ -13,16 +13,13 @@
   flex-direction: column;
 }
 
-.img-container {
-  width: 50%;
-  height: 800px;
-  border-radius: 8px;
-  overflow: hidden;
-  border: 1px solid #ddd;
-  img {
-    width: 100%;
-    object-fit: cover;
-  }
+.address-error {
+  color: #e74c3c;
+  font-size: 0.9rem;
+}
+
+.package-options-text {
+  margin-bottom: 0;
 }
 
 #map {
@@ -62,9 +59,33 @@
     margin-bottom: 16px;
 }
 
+.pkg-info {
+  width: 30%;
+  app-package {
+    display: block;
+  }
+}
+
+.package-options {
+  display: flex;
+  width: 100%;
+  .options, .extras {
+    width: 50%;
+  }
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+
 @media (max-width: 990px) {
-  .img-container {
-    display: none; /* Verbergt de afbeelding op kleine schermen */
+  .content {
+    flex-direction: column-reverse;
+  }
+  .pkg-info {
+    width: 100%;
   }
 }
 
@@ -73,9 +94,5 @@
   .form-row {
     flex-direction: column;
     gap: 0;
-  }
-  
-  .content {
-    flex-direction: column;
   }
 }
