@@ -79,6 +79,14 @@ ul {
   padding: 0;
 }
 
+.submit-btn {
+  width: 250px;
+  height: 45px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 23px;
+}
 
 @media (max-width: 990px) {
   .content {

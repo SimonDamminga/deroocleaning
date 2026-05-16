@@ -122,6 +122,13 @@ body {
     border: none;
   }
 
+  &.spinner {
+    width: 270px;
+    mat-spinner {
+      margin: 0 auto;
+    }
+  }
+
   /* Specifieke styling voor de disabled status */
   &:disabled {
     cursor: not-allowed;      /* Verandert de muis in een 'verboden' teken */
