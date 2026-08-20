@@ -50,20 +50,31 @@ private readonly cleaningServices: Record<string, ServicePage> = {
       {
         id: "basis-clean",
         name: "Interieur Basis Clean",
-        price: 100,
+        price: 115,
+        optionalExtras: [
+          { description: "Dierenharen verwijderen - vanaf", price: 25 },
+          { description: "Geurbehandeling", price: 25 },
+          { description: "Kofferbak reiniging", price: 25 },
+          { description: "Extra zitplaatsen diep reinigen vanaf", price: 20 }
+        ],
         features: ["Stofzuigen", "Dashboard & panelen", "Ramen binnenzijde", "Luchtroosters"]
       },
       {
         id: "deep-clean",
         name: "Interieur Deep Clean",
-        price: 150,
+        price: 165,
         features: ["Alles van Basis Clean", "Dieptereiniging stoelen", "Leder behandeling", "Geurverbetering"],
+        optionalExtras: [
+          { description: "Dierenharen verwijderen - vanaf", price: 25 },
+          { description: "Kofferbak reiniging", price: 25 },
+          { description: "Extra zitplaatsen diep reinigen vanaf", price: 20 }
+        ],
         isPopular: true
       },
       {
         id: "stoel-vlekken-clean",
         name: "Stoel & Vlekken Clean",
-        price: 60,
+        price: 70,
         features: ["Dieptereiniging zitplekken", "Stofzuigen", "Vlek & geurverwijdering"]
       }
     ],

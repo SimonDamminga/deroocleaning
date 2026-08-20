@@ -1,13 +1,11 @@
-.header-container {
-    margin-top: 20px;
-    margin-bottom: 56px;
-    padding: 20px;
-}
-
 .sub-title {
     color: var(--color-text);
     margin-bottom: 20px;
     font-size: 25px;
+}
+
+.header-container {
+    padding: 0 2rem;
 }
 
 .services {
@@ -17,21 +15,22 @@
 }
 
 .service {
+    transition: all 0.3s ease;
     width: 30%;
     display: flex;
     flex-direction: column;
-    border-radius: 12px;
     border: 1px solid #eee;
-    background-color: var(--color-overlay-white-20);
-    box-shadow: 0 4px 30px var(--color-shadow-10);
-    backdrop-filter: blur(5px);
+    border-radius: 12px;
     overflow: hidden; // Zorgt dat de afbeelding niet buiten de border-radius valt
-}
-
-.service img {
-    width: 100%;
-    height: 300px;
-    object-fit: cover;
+    cursor: default;
+    &:hover {
+        border-color: #bdc3c7;
+    }
+    img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;        
+    }
 }
 
 .service-content {

@@ -5,15 +5,15 @@ header {
     background-position: 0px;
     position: relative;
     border-radius: 16px;
-    height: 350px;
+    height: 200px;
     &.container {
         padding: 0;
     }
 }
 
 .header__logo {
-    width: 160px;
-    height: 160px;
+    width: 120px;
+    height: 120px;
     border-radius: 50%;
     box-shadow: 0px 0px 10px var(--color-shadow-50);
     position: absolute;
@@ -38,11 +38,9 @@ header {
         padding: 8px 20px;
         margin: 10px 0px;
         border-radius: 50px;
-    }
-    .header-link:hover,
-    .header-link.is-active {
-        color: var(--color-accent-80);
-        font-style: italic;
+        &:hover, &.is-active {
+            color: var(--color-accent-80);
+        }
     }
 }
 

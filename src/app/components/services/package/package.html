@@ -1,5 +1,5 @@
-<div class="package-card" [class.popular]="package()?.isPopular && selectable()" [class.selected]="isSelected()" [class.selectable]="selectable()" (click)="selectPackage()">
-    @if (package()?.isPopular && selectable()) {
+<div class="package-card" [class.popular]="package()?.isPopular">
+    @if (package()?.isPopular) {
         <div class="popular-tag">Meest gekozen</div>
     }
     
@@ -15,7 +15,7 @@
         <span class="amount">€{{ package()?.price }}</span>
     </div>
 
-    @if (package()?.options?.length && selectable()) {
+    @if (package()?.options?.length) {
         <ul class="feature-list">
             @for (option of package()?.options; track option) {
             <li>{{ option.description }} - €{{ option.price }}</li>
@@ -30,7 +30,7 @@
         </li>
         }
     </ul>
-    @if (package()?.optionalExtras?.length && selectable()) {
+    @if (package()?.optionalExtras?.length) {
     <ul class="feature-list extras">
         @for (extra of package()?.optionalExtras; track extra) {
         <li>
@@ -39,4 +39,8 @@
         }
     </ul>
     }
+
+    <div class="button feature-list">
+        <button class="btn-pill btn-small" (click)="selectPackage()">Kies deze</button>
+    </div>
 </div>

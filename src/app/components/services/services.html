@@ -7,7 +7,7 @@
 
         <div class="packages-grid">
             @for (pkg of service()?.packages; track pkg.name) {
-            <app-package [package]="pkg" [isSelected]="isPackageSelected(service()?.id + '/' + pkg.id)" (selectedPackage)="selectPackage(service()?.id + '/' + $event)"></app-package>
+            <app-package [package]="pkg" (selectedPackage)="selectPackage(service()?.id + '/' + $event)"></app-package>
             }
         </div>
 
@@ -24,9 +24,6 @@
                 <div class="info-item">
                     <strong>Info:</strong> {{ service()?.importantNotes?.resultInfo }}
                 </div>
-            </div>
-            <div class="button">
-                <button class="btn-pill btn-small" [disabled]="!isButtonEnabled()" (click)="goToContact()">Maak nu een afspraak.</button>
             </div>
         </div>
     </div>

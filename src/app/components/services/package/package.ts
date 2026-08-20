@@ -8,8 +8,6 @@ import { Component, input, output } from '@angular/core';
 })
 export class Package {
   package = input<any>(null);
-  isSelected = input<boolean>(false);
-  selectable = input<boolean>(true);
 
   selectedPackage = output<string>();
 

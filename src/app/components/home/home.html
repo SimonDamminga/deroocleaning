@@ -1,15 +1,15 @@
-<div class="info-container">
-    <div class="content container">
+
+<div class="container header-wrapper">
+    <div class="header-container">
         <h1 class="header-text bebas-neue-regular">Dieptereiniging met een glimlach!</h1>
         <h3 class="sub-title">Een stralend resultaat bij DeRooCleaning</h3>
-        <button class="header-action btn-pill btn-large bebas-neue-regular" routerLink="/contact">Maak nu een
-            afspraak.</button>        
+        <button class="btn-pill btn-large" routerLink="/contact">Stuur een bericht</button>        
     </div>
 </div>
-<!-- CTA -->
-<div class="info-container bg-grey-light">
-    <div class="content container">
-        <h1 class="header-text-container bebas-neue-regular">Meubel- en auto-interieurreiniging aan huis</h1>
+
+<div class="container info-wrapper">
+    <div class="info-container">
+        <h2 class="bebas-neue-regular">Meubel- en auto-interieurreiniging aan huis</h2>
         <p class="text-main">Bij DeRooCleaning in Dordrecht reinigen we vakkundig uw bank, stoel en auto-interieur.
             Wij werken op locatie in Zuid-Holland en Brabant; u hoeft alleen stroom te regelen, wij nemen de rest mee.
         </p>
@@ -24,12 +24,10 @@
         <button class="btn-round" (click)="goToSocials(SocialType.WhatsApp)">
             <i class="fa-brands fa-whatsapp"></i>
         </button>
-    </div>
-</div>
-<!-- Services -->
-<div class="info-container">
-    <div class="content container">
-        <h1 class="header-text-container bebas-neue-regular">Onze diensten</h1>
+    </div> 
+    
+    <div class="info-container">
+        <h2 class="bebas-neue-regular">Onze diensten</h2>
         <p class="text-main">Gun uw interieur een tweede leven. Van hardnekkige vlekken in uw bank tot een volledige dieptereiniging van uw auto: wij komen bij u langs voor een resultaat dat gezien (en geroken) mag worden.</p>
         <div class="alert alert-warning" role="alert">
             Let op: meubel- en bankreiniging is momenteel beperkt beschikbaar.
@@ -39,21 +37,20 @@
                 <div class="service">
                     <img src="{{ service.imageUrl }}" alt="{{ service.title }}">
                     <div class="service-content">
-                        <h2 class="service-title bebas-neue-regular">{{ service.title }}</h2>
+                        <h3 class="service-title">{{ service.title }}</h3>
                         <p class="service-description">{{ service.description }}</p>
                     </div>
                     <div class="button-box">
-                        <button class="btn-pill btn-small bebas-neue-regular" routerLink="/services" [queryParams]="{ id: service.id }">Lees meer.</button>
+                        <button class="btn-pill btn-small bebas-neue-regular" routerLink="/services" [queryParams]="{ id: service.id }">Lees meer</button>
                     </div>
                 </div>
             }
         </div>
     </div>
-</div>
-<!-- FAQ -->
-<div class="info-container bg-grey-light">
-    <div class="content container">
-        <h1 class="header-text-container bebas-neue-regular">Veelgestelde vragen</h1>
+
+    <div class="info-container">
+        <h2 class="bebas-neue-regular">Veelgestelde vragen</h2>
+        <p class="text-main">Wat vragen onze klanten het meest? Lees het hier onder.</p>
         <div class="accordion" id="accordionExample">
             <div class="accordion-item">
                 <h2 class="accordion-header">
@@ -99,11 +96,9 @@
             </div>
         </div>
     </div>
-</div>
-<!-- Socials -->
-<div class="info-container">
-    <div class="content container">
-        <h1 class="header-text-container bebas-neue-regular">Bekijk ons werk</h1>
+
+    <div class="info-container">
+        <h2 class="bebas-neue-regular">Onze socials</h2>
         <p class="text-main">Bij elke klus nemen we de tijd en streven we naar het beste resultaat!</p>
         
         <button class="btn-round" (click)="goToSocials(SocialType.Instagram)">

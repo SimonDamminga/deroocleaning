@@ -1,6 +1,6 @@
 @if (isFormSent()) {
 <section class="container contact info-container">
-    <h1 class="page-title bebas-neue-regular">Bedankt voor je bericht!</h1>
+    <h2 class="bebas-neue-regular">Bedankt voor je bericht!</h2>
     <p class="text-main">We hebben je bericht ontvangen en nemen zo snel mogelijk contact met je op via het opgegeven e-mailadres. 
         <br>Voor nu hoef je niets te doen. Je kunt via de knop hieronder terug naar de homepage.
         <br><br>Heb je nog vragen? Je kunt ons altijd bereiken via e-mail, telefoon of WhatsApp.
@@ -11,7 +11,7 @@
 </section>
 } @else {
 <section class="container contact info-container">
-    <h1 class="page-title bebas-neue-regular">Neem contact met ons op</h1>
+    <h2 class="bebas-neue-regular">Neem contact met ons op</h2>
     <p class="text-main">Vul het formulier in en wij nemen zo spoedig mogelijk contact met u op.</p>
     <div class="content">
         <div class="form">
@@ -68,45 +68,6 @@
                 }
 
                 <p class="text-main">Aanvullende informatie:</p>
-                @if (package()) {
-                    <div class="package-options">
-                        @if (package()?.options?.length) {
-                            <div class="options" formGroupName="options">
-                                <p class="package-options-text">Opties: <small>(min. 1 verplicht)</small></p>
-                                @if (contactForm.controls.options.touched && contactForm.controls.options.errors?.['minSelected']) {
-                                    <mat-error>Selecteer minimaal één optie.</mat-error>
-                                }
-                                <ul class="feature-list">
-                                    @for (option of package()?.options; track option.description) {
-                                        <li>
-                                            <mat-checkbox [formControlName]="option.description">
-                                                {{option.description}} - €{{option.price}}
-                                            </mat-checkbox>
-                                        </li>
-                                    }
-                                </ul>
-                            </div>
-                        }
-
-                        @if (package()?.optionalExtras?.length) {
-                            <div class="extras" formGroupName="optionalExtras">
-                                <p class="package-options-text">Optionele extra's:</p> 
-                                @if (contactForm.controls.optionalExtras.touched && contactForm.controls.optionalExtras.errors?.['minSelected']) {
-                                    <mat-error>Selecteer minimaal één extra.</mat-error>
-                                }
-                                <ul class="feature-list">
-                                    @for (extra of package()?.optionalExtras; track extra.description) {
-                                        <li>
-                                            <mat-checkbox [formControlName]="extra.description">
-                                                {{extra.description}} - €{{extra.price}}
-                                            </mat-checkbox>
-                                        </li>
-                                    }
-                                </ul>
-                            </div>
-                        }
-                    </div>
-                }
 
                 <mat-form-field class="full-width">
                     <mat-label>Uw bericht</mat-label>
@@ -126,13 +87,6 @@
                     }
                 </button>
             </form>
-        </div>
-
-        <div class="pkg-info">
-            @if (package()) {
-                <p class="text-main">Gekozen pakket:</p>
-                <app-package [package]="package()" [isSelected]="false" [selectable]="false" (selectedPackage)="null"></app-package>
-            }
         </div>
     </div>
 </section>
