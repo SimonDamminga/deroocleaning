@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-interface CleaningPackage {
+export interface CleaningPackage {
   id: string; // Unieke ID voor elk pakket (bijv. "basis-clean", "deep-clean")
   name: string;
   price: number;
@@ -30,6 +30,7 @@ export interface ServicePage {
 export interface Option {
   description: string;
   price: number;
+  priceLabel?: string;
 }
 
 @Injectable({
@@ -52,10 +53,10 @@ private readonly cleaningServices: Record<string, ServicePage> = {
         name: "Interieur Basis Clean",
         price: 115,
         optionalExtras: [
-          { description: "Dierenharen verwijderen - vanaf", price: 25 },
+          { description: "Dierenharen verwijderen", price: 25, priceLabel: "vanaf" },
           { description: "Geurbehandeling", price: 25 },
           { description: "Kofferbak reiniging", price: 25 },
-          { description: "Extra zitplaatsen diep reinigen vanaf", price: 20 }
+          { description: "Extra zitplaatsen diep reinigen", price: 20, priceLabel: "vanaf" }
         ],
         features: ["Stofzuigen", "Dashboard & panelen", "Ramen binnenzijde", "Luchtroosters"]
       },
@@ -65,9 +66,9 @@ private readonly cleaningServices: Record<string, ServicePage> = {
         price: 165,
         features: ["Alles van Basis Clean", "Dieptereiniging stoelen", "Leder behandeling", "Geurverbetering"],
         optionalExtras: [
-          { description: "Dierenharen verwijderen - vanaf", price: 25 },
+          { description: "Dierenharen verwijderen", price: 25, priceLabel: "vanaf" },
           { description: "Kofferbak reiniging", price: 25 },
-          { description: "Extra zitplaatsen diep reinigen vanaf", price: 20 }
+          { description: "Extra zitplaatsen diep reinigen", price: 20, priceLabel: "vanaf" }
         ],
         isPopular: true
       },
@@ -146,7 +147,7 @@ private readonly cleaningServices: Record<string, ServicePage> = {
         options: [
           { description: "Klein", price: 125 },
           { description: "Middel", price: 145 },
-          { description: "Groot/U-vorm", price: 165 }
+          { description: "Groot/U-vorm", price: 165, priceLabel: "vanaf" }
         ]
       }
     ],

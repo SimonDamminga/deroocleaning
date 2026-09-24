@@ -2,6 +2,7 @@ import { Component, inject, signal } from '@angular/core';
 import { ServicePage, ServicesService } from '../../services/services';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Package } from './package/package';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-services',
@@ -14,11 +15,11 @@ import { Package } from './package/package';
 export class Services {
   public service = signal<ServicePage | null>(null);
   public serviceId = signal<string | null>(null);
-  public selectedPackage = signal<string | null>(null);
 
   private router = inject(Router);
   private route = inject(ActivatedRoute);
   private services = inject(ServicesService);
+  private titleService = inject(Title);
 
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
@@ -28,36 +29,17 @@ export class Services {
         const selectedService = this.services.getServiceById(serviceId);
         if (selectedService) {
           this.service.set(selectedService);
+          setTimeout(() => {
+            this.titleService.setTitle(selectedService.title);
+          });
         }
       }
     });
   }
 
-  selectPackage(packageName: string) {
-    if (this.selectedPackage() === packageName) {
-      this.selectedPackage.set(null);
-    } else {
-      this.selectedPackage.set(packageName);
-    }
-  }
-
-  isPackageSelected(packageName: string): boolean {
-    return this.selectedPackage() === packageName;
-  }
-
-  isButtonEnabled(): boolean {
-    const selectedPackage = this.selectedPackage()?.split('/')[0] || null;
-    return this.serviceId() === selectedPackage ? this.selectedPackage() !== null : false;
-  }
-
-  goToContact() {
-    const selectedPackage = this.selectedPackage(); 
-
-    console.log('SelectedPackage:', selectedPackage);
-
-    if (selectedPackage) {
-      const [serviceId, packageName] = selectedPackage.split('/');
-      this.router.navigate(['/contact'], { queryParams: { serviceId, packageName } });
+  goToOrder(serviceId: any, packageName: any) {
+    if (serviceId && packageName) {
+      this.router.navigate(['/order'], { queryParams: { serviceId, packageName } });
     }
   }
 }

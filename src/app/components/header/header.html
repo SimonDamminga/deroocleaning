@@ -23,6 +23,8 @@
         <button class="header-link" routerLink="/contact" routerLinkActive="is-active" (click)="closeMenu()">Contact</button>
     </nav>
 </div>
+@if (showHeaderImage()) {
 <header class="container" setBackgroundImage [imageUrl]="selectedBackground()">
     <img class="header__logo" src="roo-cleaning-logo.jpg" alt="Roo Cleaning Logo" routerLink="/home">
 </header>
+}

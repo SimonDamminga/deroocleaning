@@ -40,10 +40,10 @@ html {
 * {
   margin: 0;
   box-sizing: border-box; // Goede practice voor consistente sizing
+  font-family: "Fredoka", sans-serif;
 }
 
 body {
-  font-family: "Fredoka", sans-serif;
   color-scheme: light;
   background-color: var(--mat-sys-surface);
   color: var(--mat-sys-on-surface);
@@ -127,6 +127,14 @@ h1, h2, h3 {
     mat-spinner {
       margin: 0 auto;
     }
+  }
+
+  &.btn-secondary {
+    background-color: #eee;
+    border: 2px solid #bdc3c7;
+  }
+  &.btn-secondary:hover:not(:disabled) {
+    background-color: #bdc3c7;
   }
 
   /* Specifieke styling voor de disabled status */

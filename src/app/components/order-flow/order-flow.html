@@ -1,0 +1,307 @@
+@if (selectedService(); as service) {
+@if (selectedPackage(); as pkg) {
+<section class="container info-container stepper-container">
+    <mat-stepper labelPosition="bottom" #stepper>
+
+        <!-- Stap 1: Overzicht & Start -->
+        <mat-step>
+            <ng-template matStepLabel>Gekozen product</ng-template>
+
+            <article class="service-card">
+                <header class="service-card__header">
+                    <div class="service-card__title">
+                        <span class="badge">Gekozen product</span>
+                        <h3>{{ pkg.name }}</h3>
+                        <p class="sub-title">{{ service.title }}</p>
+                    </div>
+
+                    <div class="service-card__price price-tag">
+                        @if (pkg?.priceLabel) {
+                        <span class="from">{{ pkg.priceLabel }}</span>
+                        }
+                        <span class="amount">&euro;{{ pkg?.price }}</span>
+                    </div>
+                </header>
+
+                <div class="service-card__body">
+                    <p>
+                        Geweldige keuze dat je kiest voor de topservice van DeRooCleaning!
+                        Je staat op het punt om je bestelling af te ronden. 
+                        Geen zorgen: je hoeft nu nog helemaal niets te betalen. 
+                        We nemen zo snel mogelijk persoonlijk contact met je op om een datum te prikken die jou het beste uitkomt.
+                    </p>
+                    <p>Klik op <strong>Volgende</strong> om te beginnen.</p>
+                </div>
+            </article>
+
+            <footer class="stepper-actions">
+                <button class="btn-pill btn-small" matStepperNext type="button">
+                    Volgende
+                </button>
+            </footer>
+        </mat-step>
+
+        <!-- Stap 2: Opties -->
+        @if (pkg.options?.length || pkg.optionalExtras?.length) {
+        <mat-step [stepControl]="optionsForm">
+            <ng-template matStepLabel>Opties en Extra's</ng-template>
+
+            <article class="service-card">
+                <header class="service-card__header">
+                    <h3>Kies je gewenste opties en extra's</h3>
+                </header>
+
+                <div class="service-card__body">
+                    <form [formGroup]="optionsForm">
+
+                        <!-- Opties (Radio) -->
+                        @if (pkg.options?.length) {
+                        <fieldset class="options-group">
+                            <legend class="options-title">Kies je optie *</legend>
+                            <mat-radio-group formControlName="selectedOption" class="options-list">
+                                @for (option of pkg.options; track option.description) {
+                                <mat-radio-button [value]="option">
+                                    <div class="option-card-content">
+                                        <span class="option-desc">{{ option.description }}</span>
+                                        <span class="option-price">&euro;{{ option.price }}</span>
+                                    </div>
+                                </mat-radio-button>
+                                }
+                            </mat-radio-group>
+
+                            @if (optionsForm.get('selectedOption')?.invalid &&
+                            optionsForm.get('selectedOption')?.touched) {
+                            <p class="error-text">Selecteer a.u.b. een optie om verder te gaan.</p>
+                            }
+                        </fieldset>
+                        }
+
+                        <!-- Optionele Extra's (Checkboxes) -->
+                        @if (pkg.optionalExtras?.length) {
+                        <fieldset class="options-group">
+                            <legend class="options-title">Optionele extra's:</legend>
+                            <div class="options-list">
+                                @for (extra of pkg.optionalExtras; track extra.description) {
+                                <mat-checkbox (change)="onExtraChange(extra, $event.checked)">
+                                    <div class="option-card-content">
+                                        <span class="option-desc">{{ extra.description }}</span>
+                                        <span class="option-price">
+                                            @if (extra.priceLabel) {
+                                            <small class="price-label">{{ extra.priceLabel }}</small>
+                                            }
+                                            + &euro;{{ extra.price }}
+                                        </span>
+                                    </div>
+                                </mat-checkbox>
+                                }
+                            </div>
+                        </fieldset>
+                        }
+
+                    </form>
+                </div>
+            </article>
+
+            <footer class="stepper-actions">
+                <button class="btn-pill btn-small btn-secondary" matStepperPrevious type="button">Vorige</button>
+                <button class="btn-pill btn-small" matStepperNext type="button" [disabled]="optionsForm.invalid">
+                    Volgende
+                </button>
+            </footer>
+        </mat-step>
+        }
+
+        <!-- Stap 3: Gegevens (NIEUW FORMULIER) -->
+        <mat-step [stepControl]="contactForm">
+            <ng-template matStepLabel>Naam en Adres</ng-template>
+
+            <article class="service-card">
+                <header class="service-card__header">
+                    <h3>Contact- en adresgegevens</h3>
+                </header>
+
+                <div class="service-card__body">
+                    <form [formGroup]="contactForm" class="form-grid">
+
+                        <!-- Persoonlijke gegevens -->
+                        <div class="form-row two-cols">
+                            <mat-form-field>
+                                <mat-label>Voornaam</mat-label>
+                                <input matInput formControlName="firstName" placeholder="bijv. Jan" required>
+                                @if (contactForm.get('firstName')?.hasError('required')) {
+                                <mat-error>Voornaam is verplicht</mat-error>
+                                }
+                            </mat-form-field>
+
+                            <mat-form-field>
+                                <mat-label>Achternaam</mat-label>
+                                <input matInput formControlName="lastName" placeholder="bijv. Jansen" required>
+                                @if (contactForm.get('lastName')?.hasError('required')) {
+                                <mat-error>Achternaam is verplicht</mat-error>
+                                }
+                            </mat-form-field>
+                        </div>
+
+                        <div class="form-row two-cols">
+                            <mat-form-field>
+                                <mat-label>E-mailadres</mat-label>
+                                <input matInput type="email" formControlName="email" placeholder="jan@voorbeeld.nl"
+                                    required>
+                                @if (contactForm.get('email')?.hasError('required')) {
+                                <mat-error>E-mailadres is verplicht</mat-error>
+                                }
+                                @if (contactForm.get('email')?.hasError('email')) {
+                                <mat-error>Vul een geldig e-mailadres in</mat-error>
+                                }
+                            </mat-form-field>
+
+                            <mat-form-field>
+                                <mat-label>Telefoonnummer</mat-label>
+                                <input matInput type="tel" formControlName="phone" placeholder="0612345678">
+                            </mat-form-field>
+                        </div>
+
+                        <hr class="form-divider">
+
+                        <!-- Adresgegevens -->`
+                        <div class="form-row address-row">
+                            <mat-form-field class="street-field">
+                                <mat-label>Straatnaam</mat-label>
+                                <input matInput formControlName="street" placeholder="Hoofdstraat" required>
+                                @if (contactForm.get('street')?.hasError('required')) {
+                                <mat-error>Straatnaam is verplicht</mat-error>
+                                }
+                            </mat-form-field>
+
+                            <mat-form-field class="number-field">
+                                <mat-label>Huisnummer</mat-label>
+                                <input matInput formControlName="houseNumber" placeholder="12A" required>
+                                @if (contactForm.get('houseNumber')?.hasError('required')) {
+                                <mat-error>Verplicht</mat-error>
+                                }
+                            </mat-form-field>
+                        </div>
+
+                        <div class="form-row two-cols">
+                            <mat-form-field>
+                                <mat-label>Postcode</mat-label>
+                                <input matInput formControlName="zipCode" placeholder="1234 AB" required>
+                                @if (contactForm.get('zipCode')?.hasError('required')) {
+                                <mat-error>Postcode is verplicht</mat-error>
+                                }
+                            </mat-form-field>
+
+                            <mat-form-field>
+                                <mat-label>Woonplaats</mat-label>
+                                <input matInput formControlName="city" placeholder="Amsterdam" required>
+                                @if (contactForm.get('city')?.hasError('required')) {
+                                <mat-error>Woonplaats is verplicht</mat-error>
+                                }
+                            </mat-form-field>
+                        </div>
+
+                    </form>
+                </div>
+            </article>
+
+            <footer class="stepper-actions">
+                <button class="btn-pill btn-small btn-secondary" matStepperPrevious type="button">Vorige</button>
+                <button class="btn-pill btn-small" matStepperNext type="button" [disabled]="contactForm.invalid">
+                    Volgende
+                </button>
+            </footer>
+        </mat-step>
+
+        <!-- Stap 4: Controle & Versturen -->
+        <mat-step>
+            <ng-template matStepLabel>Versturen</ng-template>
+
+            <article class="service-card">
+                <header class="service-card__header">
+                    <div>
+                        <h3>Bestelling controleren</h3>
+                        <p class="sub-title">Controleer uw gegevens voordat u de bestelling definitief verstuurt.</p>
+                    </div>
+                </header>
+
+                <div class="service-card__body summary-container">
+
+                    <!-- Sectie 1: Gekozen product & opties -->
+                    <section class="summary-section">
+                        <div class="summary-section__header">
+                            <h4>Gekozen product & opties</h4>
+                            <button type="button" class="btn-link" (click)="stepper.selectedIndex = 0">Wijzigen</button>
+                        </div>
+
+                        <!-- Situatie A: Er IS een specifieke optie gekozen (deze bepaalt de basisprijs) -->
+                        @if (optionsForm.get('selectedOption')?.value; as opt) {
+                        <div class="summary-row">
+                            <div class="product-title-group">
+                                <span class="label">{{ selectedPackage()?.name }}</span>
+                                <span class="sub-label">Optie: {{ opt.description }}</span>
+                            </div>
+                            <span class="value">&euro;{{ opt.price }}</span>
+                        </div>
+                        }
+                        <!-- Situatie B: Er is géén specifieke optie (de pakketprijs is de basisprijs) -->
+                        @else {
+                        <div class="summary-row">
+                            <span class="label">{{ selectedPackage()?.name }} ({{ selectedService()?.title }})</span>
+                            <span class="value">&euro;{{ selectedPackage()?.price }}</span>
+                        </div>
+                        }
+
+                        <!-- Optionele extra's (checkboxes) als toeslagen eronder -->
+                        @for (extra of optionsForm.get('selectedExtras')?.value; track extra.description) {
+                        <div class="summary-row sub-row">
+                            <span class="label">+ {{ extra.description }}</span>
+                            <span class="value">+ &euro;{{ extra.price }}</span>
+                        </div>
+                        }
+                    </section>
+
+                    <hr class="summary-divider">
+
+                    <!-- Sectie 2: Contact- & adresgegevens -->
+                    <section class="summary-section">
+                        <div class="summary-section__header">
+                            <h4>Contact- en adresgegevens</h4>
+                            <button type="button" class="btn-link" (click)="stepper.selectedIndex = 2">Wijzigen</button>
+                        </div>
+
+                        <div class="summary-details">
+                            <p><strong>{{ contactForm.get('firstName')?.value }} {{ contactForm.get('lastName')?.value
+                                    }}</strong></p>
+                            <p>{{ contactForm.get('street')?.value }} {{ contactForm.get('houseNumber')?.value }}</p>
+                            <p>{{ contactForm.get('zipCode')?.value }} {{ contactForm.get('city')?.value }}</p>
+                            <p>{{ contactForm.get('email')?.value }} @if (contactForm.get('phone')?.value) { | {{
+                                contactForm.get('phone')?.value }} }</p>
+                        </div>
+                    </section>
+
+                    <hr class="summary-divider">
+
+                    <!-- Sectie 3: Totaalprijs -->
+                    <section class="summary-total">
+                        <div class="total-row">
+                            <span class="total-label">Totaalbedrag</span>
+                            <span class="total-amount">&euro;{{ totalPrice().toFixed(2) }}</span>
+                        </div>
+                        <p class="total-note">Inclusief BTW en eventuele toeslagen.</p>
+                    </section>
+
+                </div>
+            </article>
+
+            <footer class="stepper-actions">
+                <button class="btn-pill btn-small btn-secondary" matStepperPrevious type="button">Vorige</button>
+                <button class="btn-pill btn-small" type="button" (click)="onSubmitOrder()">
+                    Definitief versturen
+                </button>
+            </footer>
+        </mat-step>
+
+    </mat-stepper>
+</section>
+}
+}

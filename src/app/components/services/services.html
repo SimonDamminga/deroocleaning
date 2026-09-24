@@ -7,7 +7,7 @@
 
         <div class="packages-grid">
             @for (pkg of service()?.packages; track pkg.name) {
-            <app-package [package]="pkg" (selectedPackage)="selectPackage(service()?.id + '/' + $event)"></app-package>
+            <app-package [package]="pkg" (selectedPackage)="goToOrder(service()?.id, $event)"></app-package>
             }
         </div>
 

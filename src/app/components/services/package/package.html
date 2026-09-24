@@ -18,7 +18,7 @@
     @if (package()?.options?.length) {
         <ul class="feature-list">
             @for (option of package()?.options; track option) {
-            <li>{{ option.description }} - €{{ option.price }}</li>
+            <li>{{ option.description }} - <i>{{ option?.priceLabel }}&nbsp;</i>€{{ option.price }}</li>
             }
         </ul>
     }
@@ -34,7 +34,7 @@
     <ul class="feature-list extras">
         @for (extra of package()?.optionalExtras; track extra) {
         <li>
-            <span class="plus-icon extras">+</span> {{ extra.description }} - €{{ extra.price }}
+            <span class="plus-icon extras">+</span> {{ extra.description }} - <i>{{ extra?.priceLabel }}&nbsp;</i>€{{ extra.price }}
         </li>
         }
     </ul>
