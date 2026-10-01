@@ -1,0 +1,24 @@
+<section class="container info-container confirmation">
+    <div class="content">
+        @if (isOrder()) {
+        <h2>Bedankt voor je bestelling!</h2>
+        <p>
+            We hebben je aanvraag succesvol ontvangen en er is een bevestiging naar je e-mailadres gestuurd. We gaan er
+            direct mee aan de slag en nemen zo snel mogelijk via e-mail contact met je op om de afspraak in te plannen.
+        </p>
+        <p class="sub-text">
+            Check je inbox voor de bevestiging en houd je mailbox goed in de gaten!
+        </p>
+        } @else {
+        <h2>Bedankt voor je bericht!</h2>
+        <p>
+            We hebben je bericht in goede orde ontvangen. We nemen zo snel mogelijk contact met je op via e-mail om je
+            vraag te beantwoorden.
+        </p>
+        <p class="sub-text">
+            Houd je mailbox (en eventueel je spambox) goed in de gaten!
+        </p>
+        }        
+    </div>
+
+</section>

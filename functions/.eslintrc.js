@@ -25,9 +25,14 @@ module.exports = {
     "@typescript-eslint",
     "import",
   ],
-  rules: {
-    "quotes": ["error", "double"],
-    "import/no-unresolved": 0,
-    "indent": ["error", 2],
+"rules": {
+    "object-curly-spacing": ["error", "always"],
+    "max-len": "off",
+    "require-jsdoc": "off",
+    "quotes": "off",
+    "indent": "off",
+    "quote-props": "off",
+    "import/no-unresolved": "off",
+    "@typescript-eslint/no-explicit-any": "off",
   },
 };

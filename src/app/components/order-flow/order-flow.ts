@@ -1,5 +1,5 @@
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
-import { Component, computed, effect, inject, Signal } from '@angular/core';
+import { Component, computed, effect, inject, signal, Signal, WritableSignal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -7,9 +7,11 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatStepperModule } from '@angular/material/stepper';
-import { ActivatedRoute, Params } from '@angular/router';
-import { CleaningPackage, ServicePage, ServicesService } from '../../services/services';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { Mail } from '../../services/mail/mail';
+import { CleaningPackage, ServicePage, ServicesService } from '../../services/services/services';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-order-flow',
@@ -21,7 +23,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     MatInputModule,
     MatButtonModule,
     MatRadioModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatProgressSpinnerModule
   ],
   providers: [
     {
@@ -34,13 +37,17 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 })
 export class OrderFlow {
   private services = inject(ServicesService);
+  private mailService = inject(Mail)
   private formBuilder = inject(FormBuilder);
   private route = inject(ActivatedRoute);
+  private router = inject(Router);
   private fb = inject(FormBuilder);
 
   private queryParams = toSignal(this.route.queryParams, {
     initialValue: {} as Params
   });
+
+  public isButtonLoading: WritableSignal<boolean> = signal(false);
 
   public selectedService = computed<ServicePage | undefined>(() => {
     const serviceId = this.queryParams()['serviceId'];
@@ -128,6 +135,7 @@ export class OrderFlow {
   }
 
   onSubmitOrder(): void {
+    this.isButtonLoading.set(true);
     if (this.contactForm.valid && this.optionsForm.valid) {
       const payload = {
         service: this.selectedService(),
@@ -137,8 +145,21 @@ export class OrderFlow {
         totalPrice: this.totalPrice()
       };
 
-      console.log('Bestelling verzenden:', payload);
-      // Hier kun je een API-call doen om de bestelling te plaatsen
+      if (false) {
+        this.mailService.sendEmailOrder(payload).subscribe({
+          next: (response) => {
+            this.isButtonLoading.set(false);
+            console.log('E-mail succesvol verzonden!', response);
+          },
+          error: (error) => {
+            this.isButtonLoading.set(false);
+            console.error('Er is iets misgegaan:', error.error);
+          }
+        });
+      } else {
+        this.isButtonLoading.set(false);
+        this.router.navigate(['/bevestiging'], { queryParams: { from: 'order' } });
+      }
     }
   }
 }

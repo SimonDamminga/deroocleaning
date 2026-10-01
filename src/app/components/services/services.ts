@@ -1,8 +1,8 @@
 import { Component, inject, signal } from '@angular/core';
-import { ServicePage, ServicesService } from '../../services/services';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Package } from './package/package';
 import { Title } from '@angular/platform-browser';
+import { ServicePage, ServicesService } from '../../services/services/services';
 
 @Component({
   selector: 'app-services',

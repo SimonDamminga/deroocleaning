@@ -1,7 +1,7 @@
 @if (selectedService(); as service) {
 @if (selectedPackage(); as pkg) {
 <section class="container info-container stepper-container">
-    <mat-stepper labelPosition="bottom" #stepper>
+    <mat-stepper labelPosition="bottom" linear="true" #stepper>
 
         <!-- Stap 1: Overzicht & Start -->
         <mat-step>
@@ -163,7 +163,7 @@
 
                         <hr class="form-divider">
 
-                        <!-- Adresgegevens -->`
+                        <!-- Adresgegevens -->
                         <div class="form-row address-row">
                             <mat-form-field class="street-field">
                                 <mat-label>Straatnaam</mat-label>
@@ -295,8 +295,12 @@
 
             <footer class="stepper-actions">
                 <button class="btn-pill btn-small btn-secondary" matStepperPrevious type="button">Vorige</button>
-                <button class="btn-pill btn-small" type="button" (click)="onSubmitOrder()">
-                    Definitief versturen
+                <button class="btn-pill btn-small spinner" type="button" [disabled]="isButtonLoading()" (click)="onSubmitOrder()">
+                    @if (isButtonLoading()) {
+                        <mat-spinner [diameter]="20"></mat-spinner>
+                    } @else {
+                        Definitief versturen
+                    }
                 </button>
             </footer>
         </mat-step>

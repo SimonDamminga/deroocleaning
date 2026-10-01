@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, inject, signal, WritableSignal } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink, RouterLinkActive } from '@angular/router';
-import { ServicePage, ServicesService } from '../../services/services';
 import { BackgroundImageDirective } from '../../directives/background-image/background-image';
 import { distinctUntilChanged, map } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { ServicePage, ServicesService } from '../../services/services/services';
 
 @Component({
   selector: 'app-header',
@@ -20,14 +20,19 @@ export class Header {
   public availableServices: WritableSignal<ServicePage[]> = signal([]);
   public selectedBackground = signal<string>('main.jpg');
   public menuOpen: WritableSignal<boolean> = signal(false);
+  private isOrderPage(): boolean {
+    const pathOnly = this.router.url.split('?')[0].split('#')[0];
+    return pathOnly.includes('order');
+  }
+
   public showHeaderImage = toSignal(
     this.router.events.pipe(
-      map(() => !this.router.url.includes('order'))
+      map(() => !this.isOrderPage())
     ),
-    { initialValue: !this.router.url.includes('order') }
+    { initialValue: !this.isOrderPage() }
   );
 
-  constructor() {}
+  constructor() { }
 
   ngOnInit() {
     this.route.queryParams.subscribe(params => {

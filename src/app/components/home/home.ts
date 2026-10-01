@@ -1,6 +1,6 @@
 import { Component, signal, WritableSignal } from '@angular/core';
 import { RouterLink } from "@angular/router";
-import { ServicePage, ServicesService } from '../../services/services';
+import { ServicePage, ServicesService } from '../../services/services/services';
 @Component({
   selector: 'app-home',
   imports: [RouterLink],

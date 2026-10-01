@@ -8,7 +8,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { ServicesService } from '../../services/services';
+import { Mail } from '../../services/mail/mail';
+import { Address } from '../../services/address/address';
 
 /** Validator om te checken of er minimaal één checkbox aan staat */
 function minSelectedValidator(min = 1): ValidatorFn {
@@ -25,18 +26,19 @@ function minSelectedValidator(min = 1): ValidatorFn {
     MatFormFieldModule, MatInputModule, MatCheckboxModule,
     MatSelectModule, MatProgressSpinnerModule, ReactiveFormsModule,
     RouterLink
-],
+  ],
   templateUrl: './contact.html',
   styleUrl: './contact.scss',
 })
 export class Contact {
   // This key is public and can be in the code.
-  private readonly WEB3FORMS_ACCESS_KEY = 'e0acc89b-fa48-4832-ac31-9fd3ad68ee0a';
+  // private readonly WEB3FORMS_ACCESS_KEY = 'e0acc89b-fa48-4832-ac31-9fd3ad68ee0a';
 
   private http = inject(HttpClient);
   private route = inject(ActivatedRoute);
-  private services = inject(ServicesService);
   private router = inject(Router);
+  private mailService = inject(Mail)
+  private addressService = inject(Address);
 
   public addressLoading = signal(false);
   public addressError = signal<string | null>(null);
@@ -45,7 +47,7 @@ export class Contact {
   public isButtonEnabled = signal<boolean>(false);
   public isButtonLoading = signal<boolean>(false);
 
-  private sendEmail: boolean = false;
+  private sendEmail: boolean = true;
 
   // Het hoofdformulier met Signal-integratie
   public contactForm = new FormGroup({
@@ -89,22 +91,23 @@ export class Contact {
   }
 
   public getAddressInfo(postCode: string, houseNumber: string) {
-    this.addressLoading.set(true);
-    const apiKey = '46d3324a-d88c-495c-bfdc-8ec78ab555c9';
-    const headers = new HttpHeaders({ Authorization: `Bearer ${apiKey}` });
-    const url = `https://postcode.tech/api/v1/postcode?postcode=${postCode}&number=${houseNumber}`;
+    if (!postCode || !houseNumber) return;
 
-    this.http.get(url, { headers }).subscribe({
+    this.addressService.getAddress(postCode, houseNumber).subscribe({
       next: (res: any) => {
         this.addressError.set(null);
         this.contactForm.patchValue({ street: res.street, city: res.city });
         this.addressLoading.set(false);
       },
-      error: () => {
+      error: (error) => {
+        console.error(error)
         this.addressError.set('Ongeldige postcode of huisnummer. Probeer het opnieuw.');
         this.addressLoading.set(false);
       }
     });
+    
+    this.addressLoading.set(true);
+    this.addressError.set(null);
   }
 
   public onSubmit() {
@@ -118,8 +121,6 @@ export class Contact {
       const fullName = `${rawValues.firstName} ${rawValues.lastName}`.trim();
 
       const formData = {
-        access_key: this.WEB3FORMS_ACCESS_KEY,
-        from_name: fullName,
         name: fullName,
         address: `${rawValues.street} ${rawValues.houseNumber}, ${rawValues.postCode} ${rawValues.city}`,
         email: rawValues.email,
@@ -128,12 +129,11 @@ export class Contact {
       };
 
       if (this.sendEmail) {
-        this.http.post('https://api.web3forms.com/submit', formData).subscribe({
-          next: (response) => {
-            console.log('Succesvol verzonden!', response);
-            this.isFormSent.set(true);
+        this.mailService.sendEmailContact(formData).subscribe({
+          next: () => {
             this.isButtonLoading.set(false);
             this.isButtonEnabled.set(true);
+            this.router.navigate(['/bevestiging']);
           },
           error: (error) => {
             console.error('Er ging iets mis:', error);
@@ -143,9 +143,9 @@ export class Contact {
         });
       } else {
         console.log(formData);
-        this.isFormSent.set(true);
         this.isButtonLoading.set(false);
         this.isButtonEnabled.set(true);
+        this.router.navigate(['/bevestiging']);
       }
     }
   }

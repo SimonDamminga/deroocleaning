@@ -418,3 +418,8 @@ mat-stepper {
     color: #0f766e;
   }
 }
+
+::ng-deep .mat-horizontal-stepper-header,
+::ng-deep .mat-vertical-stepper-header {
+  pointer-events: none !important;
+}
