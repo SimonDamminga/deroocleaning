@@ -47,8 +47,6 @@ export class Contact {
   public isButtonEnabled = signal<boolean>(false);
   public isButtonLoading = signal<boolean>(false);
 
-  private sendEmail: boolean = true;
-
   // Het hoofdformulier met Signal-integratie
   public contactForm = new FormGroup({
     firstName: new FormControl('', { validators: [Validators.required], nonNullable: true }),
@@ -105,7 +103,7 @@ export class Contact {
         this.addressLoading.set(false);
       }
     });
-    
+
     this.addressLoading.set(true);
     this.addressError.set(null);
   }
@@ -128,25 +126,18 @@ export class Contact {
         message: rawValues.message
       };
 
-      if (this.sendEmail) {
-        this.mailService.sendEmailContact(formData).subscribe({
-          next: () => {
-            this.isButtonLoading.set(false);
-            this.isButtonEnabled.set(true);
-            this.router.navigate(['/bevestiging']);
-          },
-          error: (error) => {
-            console.error('Er ging iets mis:', error);
-            this.isButtonLoading.set(false);
-            this.isButtonEnabled.set(true);
-          }
-        });
-      } else {
-        console.log(formData);
-        this.isButtonLoading.set(false);
-        this.isButtonEnabled.set(true);
-        this.router.navigate(['/bevestiging']);
-      }
+      this.mailService.sendEmailContact(formData).subscribe({
+        next: () => {
+          this.isButtonLoading.set(false);
+          this.isButtonEnabled.set(true);
+          this.router.navigate(['/bevestiging']);
+        },
+        error: (error) => {
+          console.error('Er ging iets mis: ', error);
+          this.isButtonLoading.set(false);
+          this.isButtonEnabled.set(true);
+        }
+      });
     }
   }
 }

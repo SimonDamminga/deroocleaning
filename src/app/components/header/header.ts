@@ -38,10 +38,8 @@ export class Header {
     this.route.queryParams.subscribe(params => {
       const serviceId = params['id'];
       if (serviceId) {
-        console.log("Geselecteerde service ID in header:", serviceId);
         this.selectedBackground.set(`${serviceId}.jpg`);
       } else {
-        console.log("Geen service ID geselecteerd, standaard achtergrond gebruiken.");
         this.selectedBackground.set('main.jpg');
       }
     });

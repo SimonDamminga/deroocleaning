@@ -145,21 +145,16 @@ export class OrderFlow {
         totalPrice: this.totalPrice()
       };
 
-      if (false) {
-        this.mailService.sendEmailOrder(payload).subscribe({
-          next: (response) => {
-            this.isButtonLoading.set(false);
-            console.log('E-mail succesvol verzonden!', response);
-          },
-          error: (error) => {
-            this.isButtonLoading.set(false);
-            console.error('Er is iets misgegaan:', error.error);
-          }
-        });
-      } else {
-        this.isButtonLoading.set(false);
-        this.router.navigate(['/bevestiging'], { queryParams: { from: 'order' } });
-      }
+      this.mailService.sendEmailOrder(payload).subscribe({
+        next: () => {
+          this.isButtonLoading.set(false);
+          this.router.navigate(['/bevestiging'], { queryParams: { from: 'order' } });
+        },
+        error: (error) => {
+          this.isButtonLoading.set(false);
+          console.error('Er ging iets mis: ', error.error);
+        }
+      });
     }
   }
 }
