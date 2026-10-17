@@ -199,7 +199,6 @@
                                 }
                             </mat-form-field>
                         </div>
-
                     </form>
                 </div>
             </article>
@@ -289,13 +288,20 @@
                         </div>
                         <p class="total-note">Inclusief BTW en eventuele toeslagen.</p>
                     </section>
-
+                    
+                    <form [formGroup]="confirmForm">
+                        <section>
+                            <mat-checkbox class="full-width" formControlName="termsAndConditions">
+                                Ik ga akkoord met de <a class="blue" href="/terms">algemene voorwaarden</a> en <a class="blue" href="/privacy">privacyverklaring</a>.
+                            </mat-checkbox>
+                        </section>
+                    </form>
                 </div>
             </article>
 
             <footer class="stepper-actions">
                 <button class="btn-pill btn-small btn-secondary" matStepperPrevious type="button">Vorige</button>
-                <button class="btn-pill btn-small spinner" type="button" [disabled]="isButtonLoading()" (click)="onSubmitOrder()">
+                <button class="btn-pill btn-small spinner" type="button" [disabled]="isButtonLoading() || confirmForm.invalid" (click)="onSubmitOrder()">
                     @if (isButtonLoading()) {
                         <mat-spinner [diameter]="20"></mat-spinner>
                     } @else {

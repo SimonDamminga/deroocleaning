@@ -6,10 +6,10 @@ import nodemailer from 'nodemailer';
 import cors from 'cors';
 
 // Importeer nu ook de generateEmailHtmlForAdminOrder
-import { 
-  generateEmailHtmlContactForm, 
-  generateEmailHtmlForCustomer, 
-  generateEmailHtmlForAdminOrder 
+import {
+  generateEmailHtmlContactForm,
+  generateEmailHtmlForCustomer,
+  generateEmailHtmlForAdminOrder,
 } from './templates';
 
 setGlobalOptions({ maxInstances: 10 });
@@ -66,7 +66,7 @@ app.post('/send-email-order', async (req: Request, res: Response) => {
     // Verstuur beide e-mails tegelijkertijd
     await Promise.all([
       transporter.sendMail(customerMailOptions),
-      transporter.sendMail(adminMailOptions)
+      transporter.sendMail(adminMailOptions),
     ]);
 
     return res.status(200).json({ message: 'Emails sent successfully' });

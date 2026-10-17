@@ -80,6 +80,10 @@ export class OrderFlow {
     selectedExtras: [[]]                        // Array van geselecteerde optionele extra's
   });
 
+  public confirmForm: FormGroup = this.fb.group({
+    termsAndConditions: [false, Validators.requiredTrue]
+  });
+
   public totalPrice!: Signal<any>;
 
   constructor() {
