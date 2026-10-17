@@ -108,3 +108,52 @@ ul {
     gap: 0;
   }
 }
+
+// ==========================================
+// Address Feedback & States
+// ==========================================
+.address-feedback {
+  background-color: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 8px;
+  padding: 0.85rem 1rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+
+  p {
+    margin: 0;
+    font-size: 0.875rem;
+    color: #166534;
+    line-height: 1.4;
+
+    strong {
+      color: #14532d;
+    }
+  }
+}
+
+.address-error {
+  background-color: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 8px;
+  padding: 0.85rem 1rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+
+  p {
+    margin: 0;
+    font-size: 0.875rem;
+    color: #991b1b;
+    line-height: 1.4;
+  }
+}
+
+// Styling voor de laadspinner
+mat-spinner {
+  margin: 0.75rem auto;
+
+  // Pas het kleurenschema van de spinner aan naar de gewenste teal-kleur
+  ::ng-deep circle {
+    stroke: #0d9488 !important;
+  }
+}

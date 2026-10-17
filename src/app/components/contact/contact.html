@@ -1,7 +1,8 @@
 @if (isFormSent()) {
 <section class="container contact info-container">
     <h2>Bedankt voor je bericht!</h2>
-    <p class="text-main">We hebben je bericht ontvangen en nemen zo snel mogelijk contact met je op via het opgegeven e-mailadres. 
+    <p class="text-main">We hebben je bericht ontvangen en nemen zo snel mogelijk contact met je op via het opgegeven
+        e-mailadres.
         <br>Voor nu hoef je niets te doen. Je kunt via de knop hieronder terug naar de homepage.
         <br><br>Heb je nog vragen? Je kunt ons altijd bereiken via e-mail, telefoon of WhatsApp.
     </p>
@@ -16,16 +17,22 @@
     <div class="content">
         <div class="form">
             <form [formGroup]="contactForm">
-                <p class="text-main">Persoonlijke gegevens:</p>
+                <p>Persoonlijke gegevens:</p>
                 <div class="form-row">
                     <mat-form-field>
                         <mat-label>Voornaam</mat-label>
                         <input matInput placeholder="Bijv. Jan" formControlName="firstName">
+                        @if (contactForm.get('firstName')?.hasError('required')) {
+                        <mat-error>Voornaam is verplicht</mat-error>
+                        }
                     </mat-form-field>
 
                     <mat-form-field>
                         <mat-label>Achternaam</mat-label>
                         <input matInput placeholder="Bijv. Jansen" formControlName="lastName">
+                        @if (contactForm.get('lastName')?.hasError('required')) {
+                        <mat-error>Achternaam is verplicht</mat-error>
+                        }
                     </mat-form-field>
                 </div>
 
@@ -33,57 +40,77 @@
                     <mat-form-field>
                         <mat-label>E-mail</mat-label>
                         <input type="email" matInput placeholder="naam@voorbeeld.nl" formControlName="email">
+                        @if (contactForm.get('email')?.hasError('required')) {
+                        <mat-error>E-mailadres is verplicht</mat-error>
+                        }
+                        @if (contactForm.get('email')?.hasError('email')) {
+                        <mat-error>Vul een geldig e-mailadres in</mat-error>
+                        }
                     </mat-form-field>
 
                     <mat-form-field>
-                        <mat-label>Telefoonnr</mat-label>
+                        <mat-label>Telefoonnummer</mat-label>
                         <input type="tel" matInput placeholder="06 12345678" formControlName="phone">
                     </mat-form-field>
                 </div>
 
-                <p class="text-main">Adres gegevens:</p>
+                <p>Adres gegevens:</p>
                 <div class="form-row">
                     <mat-form-field style="flex: 2;">
                         <mat-label>Postcode</mat-label>
-                        <input matInput placeholder="1234 AB" formControlName="postCode">
+                        <input matInput placeholder="1234 AB" formControlName="zipCode">
+                        @if (contactForm.get('zipCode')?.hasError('required')) {
+                        <mat-error>Postcode is verplicht</mat-error>
+                        }
                     </mat-form-field>
 
                     <mat-form-field style="flex: 1;">
-                        <mat-label>Huisnr + toev.</mat-label>
+                        <mat-label>Huisnummer</mat-label>
                         <input matInput placeholder="1" formControlName="houseNumber">
+                        @if (contactForm.get('email')?.hasError('required')) {
+                        <mat-error>Huisnummer is verplicht</mat-error>
+                        }
                     </mat-form-field>
                 </div>
                 @if (!addressLoading() && contactForm.get('street')?.value && addressError() === null) {
-                    <div class="address-feedback">
-                        <p><strong>Gevonden adres:</strong> {{ contactForm.get('street')?.value }}&nbsp;{{ contactForm.get('houseNumber')?.value }},&nbsp;{{ contactForm.get('postCode')?.value }}&nbsp;{{ contactForm.get('city')?.value }}</p>
-                    </div>
+                <div class="address-feedback">
+                    <p><strong>Gevonden adres:</strong> {{ contactForm.get('street')?.value }}&nbsp;{{
+                        contactForm.get('houseNumber')?.value }},&nbsp;{{ contactForm.get('postCode')?.value }}&nbsp;{{
+                        contactForm.get('city')?.value }}</p>
+                </div>
                 }
                 @if (addressLoading()) {
-                    <mat-spinner [diameter]="20"></mat-spinner>
+                <mat-spinner [diameter]="20"></mat-spinner>
                 }
                 @if (addressError() !== null) {
-                    <div class="address-error">
-                        <p>{{ addressError() }}</p>
-                    </div>
+                <div class="address-error">
+                    <p>{{ addressError() }}</p>
+                </div>
                 }
 
-                <p class="text-main">Aanvullende informatie:</p>
+                <p>Aanvullende informatie:</p>
 
                 <mat-form-field class="full-width">
-                    <mat-label>Uw bericht</mat-label>
-                    <textarea formControlName="message" matInput rows="5" placeholder="Waar kunnen we u mee helpen?"></textarea>
+                    <mat-label>Je bericht</mat-label>
+                    <textarea formControlName="message" matInput rows="5"
+                        placeholder="Waar kunnen we u mee helpen?"></textarea>
+                    @if (contactForm.get('message')?.hasError('required')) {
+                    <mat-error>Je bericht is verplicht</mat-error>
+                    }
                 </mat-form-field>
 
                 <mat-checkbox class="full-width" formControlName="termsAndConditions">
-                    Ik ga akkoord met de <a class="blue" href="/terms">algemene voorwaarden</a> en <a class="blue" href="/privacy">privacyverklaring</a>.
+                    Ik ga akkoord met de <a class="blue" href="/terms">algemene voorwaarden</a> en <a class="blue"
+                        href="/privacy">privacyverklaring</a>.
                 </mat-checkbox>
                 <br><br>
 
-                <button color="primary" type="submit" class="btn-pill btn-large spinner" (click)="onSubmit()" [disabled]="!isButtonEnabled()">
+                <button color="primary" type="submit" class="btn-pill btn-large spinner" (click)="onSubmit()"
+                    [disabled]="!isButtonEnabled() || !!addressError() || addressLoading()">
                     @if (!isButtonLoading()) {
-                        Verstuur Bericht
+                    Verstuur Bericht
                     } @else {
-                        <mat-spinner [diameter]="25"></mat-spinner>
+                    <mat-spinner [diameter]="25"></mat-spinner>
                     }
                 </button>
             </form>

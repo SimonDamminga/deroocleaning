@@ -31,13 +31,8 @@ function minSelectedValidator(min = 1): ValidatorFn {
   styleUrl: './contact.scss',
 })
 export class Contact {
-  // This key is public and can be in the code.
-  // private readonly WEB3FORMS_ACCESS_KEY = 'e0acc89b-fa48-4832-ac31-9fd3ad68ee0a';
-
-  private http = inject(HttpClient);
-  private route = inject(ActivatedRoute);
   private router = inject(Router);
-  private mailService = inject(Mail)
+  private mailService = inject(Mail);
   private addressService = inject(Address);
 
   public addressLoading = signal(false);
@@ -53,27 +48,27 @@ export class Contact {
     lastName: new FormControl('', { validators: [Validators.required], nonNullable: true }),
     email: new FormControl('', { validators: [Validators.required, Validators.email], nonNullable: true }),
     phone: new FormControl(''),
-    postCode: new FormControl('', {
+    zipCode: new FormControl('', {
       validators: [Validators.required, Validators.pattern(/^[1-9][0-9]{3}\s?[a-zA-Z]{2}$/)],
       nonNullable: true
     }),
     houseNumber: new FormControl('', { validators: [Validators.required], nonNullable: true }),
     street: new FormControl({ value: '', disabled: true }),
     city: new FormControl({ value: '', disabled: true }),
-    message: new FormControl(''),
+    message: new FormControl('', {validators: [Validators.required]}),
     termsAndConditions: new FormControl(false, Validators.requiredTrue)
   });
 
-  private postCodeValue = toSignal(this.contactForm.controls.postCode.valueChanges);
+  private zipCodeValue = toSignal(this.contactForm.controls.zipCode.valueChanges);
   private houseNumberValue = toSignal(this.contactForm.controls.houseNumber.valueChanges);
 
   constructor() {
     effect((onCleanup) => {
-      const pc = this.postCodeValue();
+      const pc = this.zipCodeValue();
       const nr = this.houseNumberValue();
 
       const timeout = setTimeout(() => {
-        if (this.contactForm.controls.postCode.valid && this.contactForm.controls.houseNumber.valid) {
+        if (this.contactForm.controls.zipCode.valid && this.contactForm.controls.houseNumber.valid) {
           this.getAddressInfo(pc as string, nr as string);
         }
       }, 500);
@@ -120,7 +115,7 @@ export class Contact {
 
       const formData = {
         name: fullName,
-        address: `${rawValues.street} ${rawValues.houseNumber}, ${rawValues.postCode} ${rawValues.city}`,
+        address: `${rawValues.street} ${rawValues.houseNumber}, ${rawValues.zipCode} ${rawValues.city}`,
         email: rawValues.email,
         phone: rawValues.phone,
         message: rawValues.message

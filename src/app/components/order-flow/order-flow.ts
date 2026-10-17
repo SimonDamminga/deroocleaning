@@ -12,6 +12,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { Mail } from '../../services/mail/mail';
 import { CleaningPackage, ServicePage, ServicesService } from '../../services/services/services';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { Address } from '../../services/address/address';
 
 @Component({
   selector: 'app-order-flow',
@@ -42,6 +43,7 @@ export class OrderFlow {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private fb = inject(FormBuilder);
+  private addressService = inject(Address);
 
   private queryParams = toSignal(this.route.queryParams, {
     initialValue: {} as Params
@@ -86,9 +88,14 @@ export class OrderFlow {
 
   public totalPrice!: Signal<any>;
 
+  private postCodeValue = toSignal(this.contactForm.controls['zipCode'].valueChanges);
+  private houseNumberValue = toSignal(this.contactForm.controls['houseNumber'].valueChanges);
+
+  public addressLoading = signal(false);
+  public addressError = signal<string | null>(null);
+
   constructor() {
-    // Gebruik je Angular Signals? Dan kun je met een effect() de validator dynamisch aanpassen:
-    effect(() => {
+    effect((onCleanup) => {
       const pkg = this.selectedPackage(); // jouw signal
       const optionControl = this.optionsForm.get('selectedOption');
 
@@ -103,6 +110,17 @@ export class OrderFlow {
 
       // Update de validatiestatus van de FormControl
       optionControl?.updateValueAndValidity();
+
+      const pc = this.postCodeValue();
+      const nr = this.houseNumberValue();
+
+      const timeout = setTimeout(() => {
+        if (this.contactForm.controls['zipCode'].valid && this.contactForm.controls['houseNumber'].valid) {
+          this.getAddressInfo(pc as string, nr as string);
+        }
+      }, 500);
+
+      onCleanup(() => clearTimeout(timeout));
     });
   }
 
@@ -122,14 +140,34 @@ export class OrderFlow {
     })
   }
 
+  public getAddressInfo(postCode: string, houseNumber: string) {
+    if (!postCode || !houseNumber) return;
+
+    this.addressService.getAddress(postCode, houseNumber).subscribe({
+      next: (res: any) => {
+        this.addressError.set(null);
+        this.contactForm.patchValue({ street: res.street, city: res.city });
+        this.addressLoading.set(false);
+      },
+      error: (error) => {
+        console.error(error);
+        this.addressError.set('Ongeldige postcode of huisnummer. Probeer het opnieuw.');
+        this.addressLoading.set(false);
+      }
+    });
+
+    this.addressLoading.set(true);
+    this.addressError.set(null);
+  }
+
   // Helper methode om checkboxes (extra's) bij te houden in het formulier
   onExtraChange(extra: any, isChecked: boolean): void {
     const currentExtras: any[] = this.optionsForm.get('selectedExtras')?.value || [];
 
     if (isChecked) {
-        this.optionsForm.patchValue({
-          selectedExtras: [...currentExtras, extra]
-        });
+      this.optionsForm.patchValue({
+        selectedExtras: [...currentExtras, extra]
+      });
     } else {
       this.optionsForm.patchValue({
         selectedExtras: currentExtras.filter((e: any) => e.description !== extra.description)

@@ -26,9 +26,10 @@
                 <div class="service-card__body">
                     <p>
                         Geweldige keuze dat je kiest voor de topservice van DeRooCleaning!
-                        Je staat op het punt om je bestelling af te ronden. 
-                        Geen zorgen: je hoeft nu nog helemaal niets te betalen. 
-                        We nemen zo snel mogelijk persoonlijk contact met je op om een datum te prikken die jou het beste uitkomt.
+                        Je staat op het punt om je bestelling af te ronden.
+                        Geen zorgen: je hoeft nu nog helemaal niets te betalen.
+                        We nemen zo snel mogelijk persoonlijk contact met je op om een datum te prikken die jou het
+                        beste uitkomt.
                     </p>
                     <p>Klik op <strong>Volgende</strong> om te beginnen.</p>
                 </div>
@@ -111,7 +112,7 @@
         </mat-step>
         }
 
-        <!-- Stap 3: Gegevens (NIEUW FORMULIER) -->
+        <!-- Stap 3: Gegevens  -->
         <mat-step [stepControl]="contactForm">
             <ng-template matStepLabel>Naam en Adres</ng-template>
 
@@ -122,8 +123,7 @@
 
                 <div class="service-card__body">
                     <form [formGroup]="contactForm" class="form-grid">
-
-                        <!-- Persoonlijke gegevens -->
+                         <p>Persoonlijke gegevens:</p>
                         <div class="form-row two-cols">
                             <mat-form-field>
                                 <mat-label>Voornaam</mat-label>
@@ -161,51 +161,47 @@
                             </mat-form-field>
                         </div>
 
-                        <hr class="form-divider">
-
                         <!-- Adresgegevens -->
+                         <p>Adres gegevens:</p>  
                         <div class="form-row address-row">
-                            <mat-form-field class="street-field">
-                                <mat-label>Straatnaam</mat-label>
-                                <input matInput formControlName="street" placeholder="Hoofdstraat" required>
-                                @if (contactForm.get('street')?.hasError('required')) {
-                                <mat-error>Straatnaam is verplicht</mat-error>
-                                }
-                            </mat-form-field>
-
-                            <mat-form-field class="number-field">
-                                <mat-label>Huisnummer</mat-label>
-                                <input matInput formControlName="houseNumber" placeholder="12A" required>
-                                @if (contactForm.get('houseNumber')?.hasError('required')) {
-                                <mat-error>Verplicht</mat-error>
-                                }
-                            </mat-form-field>
-                        </div>
-
-                        <div class="form-row two-cols">
-                            <mat-form-field>
+                            <mat-form-field class="zipcode-field">
                                 <mat-label>Postcode</mat-label>
                                 <input matInput formControlName="zipCode" placeholder="1234 AB" required>
                                 @if (contactForm.get('zipCode')?.hasError('required')) {
                                 <mat-error>Postcode is verplicht</mat-error>
                                 }
                             </mat-form-field>
-
-                            <mat-form-field>
-                                <mat-label>Woonplaats</mat-label>
-                                <input matInput formControlName="city" placeholder="Amsterdam" required>
-                                @if (contactForm.get('city')?.hasError('required')) {
-                                <mat-error>Woonplaats is verplicht</mat-error>
+                            <mat-form-field class="number-field">
+                                <mat-label>Huisnummer</mat-label>
+                                <input matInput formControlName="houseNumber" placeholder="12A" required>
+                                @if (contactForm.get('houseNumber')?.hasError('required')) {
+                                <mat-error>Huisnummer is verplicht</mat-error>
                                 }
                             </mat-form-field>
                         </div>
+
+                        @if (!addressLoading() && contactForm.get('street')?.value && addressError() === null) {
+                        <div class="address-feedback">
+                            <p><strong>Gevonden adres:</strong> {{ contactForm.get('street')?.value }}&nbsp;{{
+                                contactForm.get('houseNumber')?.value }},&nbsp;{{ contactForm.get('postCode')?.value
+                                }}&nbsp;{{ contactForm.get('city')?.value }}</p>
+                        </div>
+                        }
+                        @if (addressLoading()) {
+                        <mat-spinner [diameter]="20"></mat-spinner>
+                        }
+                        @if (addressError() !== null) {
+                        <div class="address-error">
+                            <p>{{ addressError() }}</p>
+                        </div>
+                        }
                     </form>
                 </div>
             </article>
 
             <footer class="stepper-actions">
                 <button class="btn-pill btn-small btn-secondary" matStepperPrevious type="button">Vorige</button>
-                <button class="btn-pill btn-small" matStepperNext type="button" [disabled]="contactForm.invalid">
+                <button class="btn-pill btn-small" matStepperNext type="button" [disabled]="contactForm.invalid || !!addressError() || addressLoading()">
                     Volgende
                 </button>
             </footer>
@@ -288,11 +284,12 @@
                         </div>
                         <p class="total-note">Inclusief BTW en eventuele toeslagen.</p>
                     </section>
-                    
+
                     <form [formGroup]="confirmForm">
                         <section>
                             <mat-checkbox class="full-width" formControlName="termsAndConditions">
-                                Ik ga akkoord met de <a class="blue" href="/terms">algemene voorwaarden</a> en <a class="blue" href="/privacy">privacyverklaring</a>.
+                                Ik ga akkoord met de <a class="blue" href="/terms">algemene voorwaarden</a> en <a
+                                    class="blue" href="/privacy">privacyverklaring</a>.
                             </mat-checkbox>
                         </section>
                     </form>
@@ -301,11 +298,12 @@
 
             <footer class="stepper-actions">
                 <button class="btn-pill btn-small btn-secondary" matStepperPrevious type="button">Vorige</button>
-                <button class="btn-pill btn-small spinner" type="button" [disabled]="isButtonLoading() || confirmForm.invalid" (click)="onSubmitOrder()">
+                <button class="btn-pill btn-small spinner" type="button"
+                    [disabled]="isButtonLoading() || confirmForm.invalid" (click)="onSubmitOrder()">
                     @if (isButtonLoading()) {
-                        <mat-spinner [diameter]="20"></mat-spinner>
+                    <mat-spinner [diameter]="20"></mat-spinner>
                     } @else {
-                        Definitief versturen
+                    Definitief versturen
                     }
                 </button>
             </footer>
