@@ -1,22 +1,21 @@
-
 <div class="container header-wrapper">
     <div class="header-container">
         <h1 class="header-text">Dieptereiniging met een glimlach!</h1>
         <h3 class="sub-title">Een stralend resultaat bij DeRooCleaning</h3>
-        <button class="btn-pill btn-large" routerLink="/contact">Stuur een bericht</button>        
+        <button class="btn-pill btn-large" routerLink="/contact">Stuur een bericht</button>
     </div>
 </div>
 
 <div class="container info-wrapper">
     <div class="info-container">
         <h2>Meubel- en auto-interieurreiniging aan huis</h2>
-        <p class="text-main">Bij DeRooCleaning in Dordrecht reinigen we vakkundig uw bank, stoel en auto-interieur.
-            Wij werken op locatie in Zuid-Holland en Brabant; u hoeft alleen stroom te regelen, wij nemen de rest mee.
+        <p>Bij DeRooCleaning in Dordrecht reinigen we vakkundig uw bank, stoelen en auto-interieur. Wij werken op
+            locatie door heel Zuid-Holland en Brabant. U hoeft alleen voor stroom te zorgen, wij nemen de rest mee!
         </p>
-        <p class="text-main">Wij zijn momenteel rustig aan het opstarten en nemen <strong>een beperkt aantal klussen
-                aan</strong>. Zo kunnen wij elke reiniging met aandacht uitvoeren en de kwaliteit leveren die u mag
-            verwachten.</p>
-        <p class="text-main">Interesse of een vraag? Neem gerust contact op, dan kijken we samen wat mogelijk is.</p>
+        <p>Om de allerhoogste kwaliteit en persoonlijke aandacht te garanderen, werken we op dit moment met een beperkt
+            aantal beschikbare plekken per week. Zo weet u zeker dat uw reiniging met de grootste zorg wordt uitgevoerd.
+        </p>
+        <p>Interesse of een vraag? Neem gerust contact met ons op, dan kijken we samen naar de mogelijkheden.</p>
         <button class="btn-round" (click)="goToSocials(SocialType.Email)">
             <i class="fa-regular fa-envelope"></i>
         </button>
@@ -28,33 +27,72 @@
         <button class="btn-round" (click)="goToSocials(SocialType.Instagram)">
             <i class="fa-brands fa-instagram"></i>
         </button>
-    </div> 
-    
+    </div>
+
     <div class="info-container">
-        <h2>Onze diensten</h2>
-        <p class="text-main">Gun uw interieur een tweede leven. Van hardnekkige vlekken in uw bank tot een volledige dieptereiniging van uw auto: wij komen bij u langs voor een resultaat dat gezien (en geroken) mag worden.</p>
-        <div class="alert alert-warning" role="alert">
-            <strong>Let op:</strong> meubel- en bankreiniging is momenteel beperkt beschikbaar.
-        </div>
-        <div class="services">
-            @for (service of availableServices(); track $index) {
-                <div class="service">
-                    <img src="{{ service.imageUrl }}" alt="{{ service.title }}">
-                    <div class="service-content">
-                        <h3 class="service-title">{{ service.title }}</h3>
-                        <p class="service-description">{{ service.description }}</p>
-                    </div>
-                    <div class="button-box">
-                        <button class="btn-pill btn-small" routerLink="/services" [queryParams]="{ id: service.id }">Lees meer</button>
+        <h2>Jouw voordelen op een rij</h2>
+        <div class="features-section">
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">✨</div>
+                    <div class="feature-content">
+                        <h4>Grondige dieptereiniging</h4>
+                        <p>Reinigt diep in het materiaal, niet alleen oppervlakkig.</p>
                     </div>
                 </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🌱</div>
+                    <div class="feature-content">
+                        <h4>Veilig &amp; Duurzaam</h4>
+                        <p>100% veilig voor kinderen, huisdieren en stoffen.</p>
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <div class="feature-content">
+                        <h4>Snelle droogtijd</h4>
+                        <p>Snel weer gebruikmaken van uw meubels of auto.</p>
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">📍</div>
+                    <div class="feature-content">
+                        <h4>Gemak aan huis</h4>
+                        <p>Service op locatie in Zuid-Holland &amp; Brabant.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="info-container">
+        <h2>Onze diensten</h2>
+        <p>Van hardnekkige vlekken in uw bank tot een complete dieptereiniging van uw auto-interieur.
+            <br> Wij komen bij u op locatie voor een resultaat dat gezien (en geroken) mag worden!
+        </p>
+        <div class="services">
+            @for (service of availableServices(); track $index) {
+            <div class="service">
+                <img src="{{ service.imageUrl }}" alt="{{ service.title }}">
+                <div class="service-content">
+                    <h3 class="service-title">{{ service.title }}</h3>
+                    <p class="service-description">{{ service.description }}</p>
+                </div>
+                <div class="button-box">
+                    <button class="btn-pill btn-small" routerLink="/services" [queryParams]="{ id: service.id }">Lees
+                        meer</button>
+                </div>
+            </div>
             }
         </div>
     </div>
 
     <div class="info-container">
         <h2>Veelgestelde vragen</h2>
-        <p class="text-main">Wat vragen onze klanten het meest? Lees het hier onder.</p>
+        <p>Wat vragen onze klanten het meest? Lees het hier onder.</p>
         <div class="accordion" id="accordionExample">
             <div class="accordion-item">
                 <h2 class="accordion-header">
