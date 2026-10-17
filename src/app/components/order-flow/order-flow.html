@@ -123,7 +123,7 @@
 
                 <div class="service-card__body">
                     <form [formGroup]="contactForm" class="form-grid">
-                         <p>Persoonlijke gegevens:</p>
+                        <p>Persoonlijke gegevens:</p>
                         <div class="form-row two-cols">
                             <mat-form-field>
                                 <mat-label>Voornaam</mat-label>
@@ -162,7 +162,7 @@
                         </div>
 
                         <!-- Adresgegevens -->
-                         <p>Adres gegevens:</p>  
+                        <p>Adres gegevens:</p>
                         <div class="form-row address-row">
                             <mat-form-field class="zipcode-field">
                                 <mat-label>Postcode</mat-label>
@@ -201,7 +201,8 @@
 
             <footer class="stepper-actions">
                 <button class="btn-pill btn-small btn-secondary" matStepperPrevious type="button">Vorige</button>
-                <button class="btn-pill btn-small" matStepperNext type="button" [disabled]="contactForm.invalid || !!addressError() || addressLoading()">
+                <button class="btn-pill btn-small" matStepperNext type="button"
+                    [disabled]="contactForm.invalid || !!addressError() || addressLoading()">
                     Volgende
                 </button>
             </footer>
@@ -225,7 +226,9 @@
                     <section class="summary-section">
                         <div class="summary-section__header">
                             <h4>Gekozen product & opties</h4>
+                            @if (pkg.options?.length || pkg.optionalExtras?.length) {
                             <button type="button" class="btn-link" (click)="stepper.selectedIndex = 1">Wijzigen</button>
+                            }
                         </div>
 
                         <!-- Situatie A: Er IS een specifieke optie gekozen (deze bepaalt de basisprijs) -->
