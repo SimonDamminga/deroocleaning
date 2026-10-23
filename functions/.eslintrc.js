@@ -34,6 +34,7 @@ module.exports = {
     "quote-props": "off",
     "import/no-unresolved": "off",
     "linebreak-style": "off",
+    "new-cap": "off",
     "@typescript-eslint/no-explicit-any": "off",
   },
 };

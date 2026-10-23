@@ -6,7 +6,7 @@ import { inject, Injectable } from '@angular/core';
 })
 export class Api {
   private http = inject(HttpClient);
-  private baseUrl = 'https://api-jrkyqpk5eq-uc.a.run.app/'
+  private baseUrl = 'https://api.deroocleaning.nl/api'
   
   public get(url: string) {
     return this.http.get(`${this.baseUrl}${url}`);

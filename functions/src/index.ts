@@ -1,15 +1,15 @@
+import cors from 'cors';
+import express, { Request, Response } from 'express';
+import { defineSecret } from 'firebase-functions/params';
 import { setGlobalOptions } from 'firebase-functions/v2';
 import { onRequest } from 'firebase-functions/v2/https';
-import { defineSecret } from 'firebase-functions/params';
-import express, { Request, Response } from 'express';
 import nodemailer from 'nodemailer';
-import cors from 'cors';
 
 // Importeer nu ook de generateEmailHtmlForAdminOrder
 import {
   generateEmailHtmlContactForm,
-  generateEmailHtmlForCustomer,
   generateEmailHtmlForAdminOrder,
+  generateEmailHtmlForCustomer,
 } from './templates';
 
 setGlobalOptions({ maxInstances: 10 });
@@ -21,6 +21,8 @@ const app = express();
 
 app.use(cors({ origin: true }));
 app.use(express.json());
+
+const apiRouter = express.Router();
 
 function getTransporter() {
   return nodemailer.createTransport({
@@ -34,7 +36,7 @@ function getTransporter() {
 
 // Endpoints
 
-app.post('/send-email-order', async (req: Request, res: Response) => {
+apiRouter.post('/send-email-order', async (req: Request, res: Response) => {
   const { service, package: pkg, options, customerDetails, totalPrice } = req.body;
 
   if (!service || !pkg || !options || !customerDetails || !totalPrice) {
@@ -75,7 +77,7 @@ app.post('/send-email-order', async (req: Request, res: Response) => {
   }
 });
 
-app.post('/send-email-contact', async (req: Request, res: Response) => {
+apiRouter.post('/send-email-contact', async (req: Request, res: Response) => {
   const { name, address, email, message } = req.body;
 
   if (!name || !address || !email || !message) {
@@ -101,7 +103,7 @@ app.post('/send-email-contact', async (req: Request, res: Response) => {
   }
 });
 
-app.get('/get-address', async (req: Request, res: Response) => {
+apiRouter.get('/get-address', async (req: Request, res: Response) => {
   const { postcode, number } = req.query;
   if (!postcode || !number) {
     return res.status(400).json({ error: 'Postcode en huisnummer zijn verplicht.' });
@@ -137,11 +139,14 @@ app.get('/get-address', async (req: Request, res: Response) => {
   }
 });
 
+app.use('/api', apiRouter);
+
 export const api = onRequest(
   {
     secrets: ['GMAIL_USER', 'GMAIL_APP_PASSWORD', 'POSTCODE_TECH_API_KEY'],
     maxInstances: 10,
     concurrency: 80,
+    region: 'europe-west1',
   },
   app
 );
