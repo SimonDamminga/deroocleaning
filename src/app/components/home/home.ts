@@ -37,10 +37,10 @@ export class Home {
     }
 
     if (type === SocialType.Email) {
+      window.location.href = url;
       navigator.clipboard.writeText(email).then(() => {
         this._snackBar.openFromComponent(Emailsnackbar, {data: {email: email}, duration: 3000});
       });
-      window.location.href = url;
       return;
     }
     window.open(url, "_blank");

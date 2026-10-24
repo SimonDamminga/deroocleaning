@@ -10,6 +10,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Mail } from '../../services/mail/mail';
 import { Address } from '../../services/address/address';
+import { MatIconModule } from '@angular/material/icon';
 
 /** Validator om te checken of er minimaal één checkbox aan staat */
 function minSelectedValidator(min = 1): ValidatorFn {
@@ -25,7 +26,7 @@ function minSelectedValidator(min = 1): ValidatorFn {
   imports: [
     MatFormFieldModule, MatInputModule, MatCheckboxModule,
     MatSelectModule, MatProgressSpinnerModule, ReactiveFormsModule,
-    RouterLink
+    RouterLink, MatIconModule
   ],
   templateUrl: './contact.html',
   styleUrl: './contact.scss',
@@ -56,11 +57,12 @@ export class Contact {
     street: new FormControl({ value: '', disabled: true }),
     city: new FormControl({ value: '', disabled: true }),
     message: new FormControl('', {validators: [Validators.required]}),
-    termsAndConditions: new FormControl(false, Validators.requiredTrue)
+    termsAndConditions: new FormControl(false, Validators.requiredTrue),
   });
 
   private zipCodeValue = toSignal(this.contactForm.controls.zipCode.valueChanges);
   private houseNumberValue = toSignal(this.contactForm.controls.houseNumber.valueChanges);
+  public selectedFile: any = null;
 
   constructor() {
     effect((onCleanup) => {
@@ -103,6 +105,22 @@ export class Contact {
     this.addressError.set(null);
   }
 
+  public onFileSelected(event: any) {
+    this.selectedFile = event.target.files[0] ?? null;
+  }
+
+  public deleteSelectedFile() {
+    this.selectedFile = null;
+  }
+
+  public openPageInNewTab(page: string) {
+    const url = this.router.serializeUrl(
+      this.router.createUrlTree([page])
+    );
+
+    window.open(url, '_blank');
+  }
+
   public onSubmit() {
     this.isButtonEnabled.set(false);
     this.isButtonLoading.set(true);
@@ -112,14 +130,16 @@ export class Contact {
 
       // Sla de samengestelde naam één keer op
       const fullName = `${rawValues.firstName} ${rawValues.lastName}`.trim();
-
-      const formData = {
-        name: fullName,
-        address: `${rawValues.street} ${rawValues.houseNumber}, ${rawValues.zipCode} ${rawValues.city}`,
-        email: rawValues.email,
-        phone: rawValues.phone,
-        message: rawValues.message
-      };
+      const formData = new FormData();
+      formData.append('name', fullName);
+      formData.append('address', `${rawValues.street} ${rawValues.houseNumber}, ${rawValues.zipCode} ${rawValues.city}`);
+      formData.append('email', rawValues.email);
+      formData.append('phone', rawValues.phone ?? '');
+      formData.append('message', rawValues.message ?? '');
+      if (this.selectedFile) {
+        formData.append('file', this.selectedFile);
+      }
+      
 
       this.mailService.sendEmailContact(formData).subscribe({
         next: () => {

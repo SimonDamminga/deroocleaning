@@ -291,8 +291,8 @@
                     <form [formGroup]="confirmForm">
                         <section>
                             <mat-checkbox class="full-width" formControlName="termsAndConditions">
-                                Ik ga akkoord met de <a class="blue" href="/terms">algemene voorwaarden</a> en <a
-                                    class="blue" href="/privacy">privacyverklaring</a>.
+                                Ik ga akkoord met de <a class="blue" (click)="openPageInNewTab('/terms')">algemene voorwaarden</a> en <a
+                                    class="blue" (click)="openPageInNewTab('/privacy')">privacyverklaring</a>.
                             </mat-checkbox>
                         </section>
                     </form>

@@ -99,9 +99,21 @@
                     }
                 </mat-form-field>
 
+                <div class="file-upload">
+                    <input hidden type="file" #fileUpload (change)="onFileSelected($event)" accept="image/*">
+                    <button class="btn-pill btn-small" (click)="fileUpload.click()" type="button">Foto toevoegen</button>
+                    <span class="file-name">{{ selectedFile?.name }}</span>
+                    @if (selectedFile) {
+                    <span class="delete-file">
+                        <mat-icon fontIcon="delete" (click)="deleteSelectedFile()"></mat-icon>
+                    </span>
+                    }
+                </div>
+                
+
                 <mat-checkbox class="full-width" formControlName="termsAndConditions">
-                    Ik ga akkoord met de <a class="blue" href="/terms">algemene voorwaarden</a> en <a class="blue"
-                        href="/privacy">privacyverklaring</a>.
+                    Ik ga akkoord met de <a class="blue" (click)="openPageInNewTab('/terms')">algemene voorwaarden</a> en <a class="blue"
+                        (click)="openPageInNewTab('/privacy')">privacyverklaring</a>.
                 </mat-checkbox>
                 <br><br>
 

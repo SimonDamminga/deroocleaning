@@ -4,6 +4,7 @@ import { defineSecret } from 'firebase-functions/params';
 import { setGlobalOptions } from 'firebase-functions/v2';
 import { onRequest } from 'firebase-functions/v2/https';
 import nodemailer from 'nodemailer';
+import Busboy from 'busboy';
 
 // Importeer nu ook de generateEmailHtmlForAdminOrder
 import {
@@ -16,10 +17,19 @@ setGlobalOptions({ maxInstances: 10 });
 
 const GMAIL_USER = defineSecret('GMAIL_USER');
 const GMAIL_APP_PASSWORD = defineSecret('GMAIL_APP_PASSWORD');
+const allowedOrigins = [
+  'https://deroocleaning.nl',
+  'https://www.deroocleaning.nl',
+  'http://localhost:4200',
+];
 
 const app = express();
 
-app.use(cors({ origin: true }));
+app.use(cors({
+  origin: (origin, callback) => {
+    (!origin || allowedOrigins.indexOf(origin) !== -1) ? callback(null, true) : callback(new Error('Access denied due to CORS-policy'));
+  },
+}));
 app.use(express.json());
 
 const apiRouter = express.Router();
@@ -77,27 +87,80 @@ apiRouter.post('/send-email-order', async (req: Request, res: Response) => {
   }
 });
 
-apiRouter.post('/send-email-contact', async (req: Request, res: Response) => {
-  const { name, address, email, message } = req.body;
-
-  if (!name || !address || !email || !message) {
-    return res.status(400).json({ error: 'Missing required fields' });
+apiRouter.post('/send-email-contact', async (req: Request, res: Response): Promise<any> => {
+  const rawBody = (req as any).rawBody;
+  if (!rawBody) {
+    return res.status(400).json({ error: 'Invalid request body' });
   }
 
   try {
+    // Wrap busboy in a Promise so we can await it cleanly
+    const result = await new Promise<{ fields: any; fileBuffer: Buffer | null; fileDetails: any }>((resolve, reject) => {
+      const busboy = Busboy({ headers: req.headers });
+      const fields: { [key: string]: string } = {};
+      let fileBuffer: Buffer | null = null;
+      let fileDetails: { filename: string; mimetype: string } | null = null;
+
+      busboy.on('field', (fieldname, val) => {
+        fields[fieldname] = val;
+      });
+
+      busboy.on('file', (_fieldname, file, info) => {
+        const filename = info.filename || 'unnamed-file';
+        const mimetype = info.mimeType || 'application/octet-stream';
+        const chunks: Buffer[] = [];
+
+        file.on('data', (chunk) => {
+          chunks.push(chunk);
+        });
+
+        file.on('end', () => {
+          fileBuffer = Buffer.concat(chunks);
+          fileDetails = { filename, mimetype };
+        });
+      });
+
+      busboy.on('finish', () => {
+        resolve({ fields, fileBuffer, fileDetails });
+      });
+
+      busboy.on('error', (err) => {
+        reject(err);
+      });
+
+      busboy.end(rawBody);
+    });
+
+    const { fields, fileBuffer, fileDetails } = result;
+    const { name, address, email, message } = fields;
+
+    if (!name || !address || !email || !message) {
+      return res.status(400).json({ error: 'Missing required fields' });
+    }
+
     const transporter = getTransporter();
     const gmailUser = process.env.GMAIL_USER || GMAIL_USER.value();
 
-    const mailOptions = {
+    const mailOptions: any = {
       from: `De Roo Cleaning <${gmailUser}>`,
       to: gmailUser,
       subject: `Bericht via contactformulier van ${name}`,
       text: `Nieuw bericht van ${name} (${email}):\n\n${message}`,
-      html: generateEmailHtmlContactForm(req.body),
+      html: generateEmailHtmlContactForm(fields),
     };
 
-    const result = await transporter.sendMail(mailOptions);
-    return res.status(200).json({ message: 'Email sent successfully', messageId: result.messageId });
+    if (fileBuffer && fileDetails) {
+      mailOptions.attachments = [
+        {
+          filename: fileDetails.filename,
+          content: fileBuffer,
+          contentType: fileDetails.mimetype,
+        },
+      ];
+    }
+
+    const emailResult = await transporter.sendMail(mailOptions);
+    return res.status(200).json({ message: 'Email sent successfully', messageId: emailResult.messageId });
   } catch (error: any) {
     return res.status(500).json({ error: 'Failed to send email', details: error.message });
   }

@@ -148,6 +148,31 @@ ul {
   }
 }
 
+.file-upload {
+  margin: 20px 0;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.file-name {
+  margin-left: 1rem;
+  font-size: 0.9rem;
+  color: #333;
+}
+
+.delete-file {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  color: #d9534f;         /* Optional: Red color for delete icon */
+  transition: opacity 0.2s;
+}
+
+.delete-file:hover {
+  opacity: 0.7;
+}
+
 // Styling voor de laadspinner
 mat-spinner {
   margin: 0.75rem auto;

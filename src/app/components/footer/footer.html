@@ -5,6 +5,9 @@
             <p class="footer__text">Professionele meubel- en auto-interieurreiniging aan huis.</p>
             <p class="footer__text">Werkzaam in Zuid-Holland en Brabant.</p><br>
             <p class="footer__text">&copy; 2026 DeRooCleaning. Alle rechten voorbehouden.</p>
+            <div class="credits">
+                <p>Gemaakt door <a class="footer__link" (click)="openEmail('simon.damminga@gmail.com')">Simon Damminga</a></p>
+            </div>
         </div>
         <div class="footer__column">
             <h2>Contact & bedrijfsinfo</h2>
@@ -13,10 +16,10 @@
             <p class="footer__text"><strong>Tel/WhatsApp:</strong>&nbsp;<a class="footer__link"
                     href="https://wa.me/31612278821" target="_blank" rel="noopener noreferrer">+31 6 12278821</a></p>
             <p class="footer__text"><strong>E-mail:</strong>&nbsp;<a class="footer__link"
-                    href="mailto:deroocleaning@gmail.com">deroocleaning@gmail.com</a></p><br>
+                    (click)="openEmail('deroocleaning@gmail.com')">deroocleaning@gmail.com</a></p><br>
             <div class="footer__links">
-                <a class="footer__text footer__link" href="/terms">Algemene voorwaarden</a>&nbsp;
-                <a class="footer__text footer__link" href="/privacy">Privacyverklaring</a>
+                <a class="footer__text footer__link" routerLink="/terms">Algemene voorwaarden</a>&nbsp;
+                <a class="footer__text footer__link" routerLink="/privacy">Privacyverklaring</a>
             </div>
         </div>
     </div>

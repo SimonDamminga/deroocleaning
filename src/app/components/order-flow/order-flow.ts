@@ -3,16 +3,16 @@ import { Component, computed, effect, inject, signal, Signal, WritableSignal } f
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatStepperModule } from '@angular/material/stepper';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { MatCheckboxModule } from '@angular/material/checkbox';
+import { Address } from '../../services/address/address';
 import { Mail } from '../../services/mail/mail';
 import { CleaningPackage, ServicePage, ServicesService } from '../../services/services/services';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { Address } from '../../services/address/address';
 
 @Component({
   selector: 'app-order-flow',
@@ -25,8 +25,8 @@ import { Address } from '../../services/address/address';
     MatButtonModule,
     MatRadioModule,
     MatCheckboxModule,
-    MatProgressSpinnerModule
-  ],
+    MatProgressSpinnerModule,
+],
   providers: [
     {
       provide: STEPPER_GLOBAL_OPTIONS,
@@ -174,6 +174,14 @@ export class OrderFlow {
       });
     }
     this.optionsForm.get('selectedExtras')?.markAsTouched();
+  }
+
+  public openPageInNewTab(page: string) {
+    const url = this.router.serializeUrl(
+      this.router.createUrlTree([page])
+    );
+
+    window.open(url, '_blank');
   }
 
   onSubmitOrder(): void {

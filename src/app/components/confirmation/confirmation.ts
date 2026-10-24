@@ -1,9 +1,9 @@
 import { Component, inject, signal } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-confirmation',
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './confirmation.html',
   styleUrl: './confirmation.scss',
 })

@@ -24,10 +24,18 @@ h2 {
     color: var(--color-primary);
     text-decoration: none;
     font-weight: 600;
+    cursor: pointer;
 }
 
 .footer__link:hover {
     text-decoration: underline;
+}
+
+.credits {
+    p {
+        font-style: italic;
+        font-size: 16px;
+    }
 }
 
 @media only screen and (max-width: 991px) {
